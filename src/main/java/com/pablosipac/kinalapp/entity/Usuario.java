@@ -1,16 +1,14 @@
 package com.pablosipac.kinalapp.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "usuarios")
 public class Usuario {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column (name = "codigo_usuario")
-    private String codigoUsuario;
+    private Integer codigoUsuario;
     @Column
     private String username;
     @Column
@@ -34,11 +32,11 @@ public class Usuario {
         this.estado = estado;
     }
 
-    public String getcodigoUsuario() {
+    public Integer getcodigoUsuario() {
         return codigoUsuario;
     }
 
-    public void setcodigoUsuario(String codigoUsuario) {
+    public void setcodigoUsuario(Integer codigoUsuario) {
         codigoUsuario = codigoUsuario;
     }
 

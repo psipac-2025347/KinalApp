@@ -48,7 +48,7 @@ public class UsuarioService implements IUsuarioService  {
             throw new RuntimeException("El Usuario no se encontro con el codigoUsuario"+codigoUsuario);
 
         }
-        Usuario.setcodigoUsuario(codigoUsuario);
+        Usuario.setcodigoUsuario(Integer.parseInt(codigoUsuario));
         //Aseguramos que el codigoUsuario del objeto coincida con el de la URL
         //Por seguridad usamos el codigoUsuario de la URL y no el que viene en el JSON
         validarUsuario(Usuario);
@@ -89,7 +89,7 @@ public class UsuarioService implements IUsuarioService  {
          *   Validaciones del negocio: este metodo se usara
          * es algo interno del servicio
          */
-        if(Usuario.getcodigoUsuario()== null || Usuario.getcodigoUsuario().trim().isEmpty()){
+        if(Usuario.getcodigoUsuario()== null || Usuario.getcodigoUsuario()==null){
             //si el codigoUsuario es null o vacio despues de quitar espacios
             //lanza una excepcion con un mensaje
             throw new IllegalArgumentException("El codigoUsuario es un dato obligatorio");

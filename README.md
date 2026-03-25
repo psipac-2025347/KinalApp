@@ -12,3 +12,9 @@ Programa que lleva el registro de los usuarios, detalles de venta, clientes y pr
 Antes del proyecto es importante tener:
 * JDK 17 o superior instalado
 * Maven
+* Instancia de MySQL abierta para revisar la base de datos
+* Editor de archivos (Intellij o Visual Studio Code)
+## Instalacion y Ejecución
+Es importante saber que debes hacer para instalar y ejecutar el programa:
+* Clonar el repositorio 
+* Ejecutar la aplicacion desde un editor de textos (Preferiblemente Intellij)

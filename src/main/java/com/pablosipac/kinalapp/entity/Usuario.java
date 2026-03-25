@@ -10,7 +10,7 @@ import jakarta.persistence.Table;
 public class Usuario {
     @Id
     @Column (name = "codigo_usuario")
-    private String CodigoUsuario;
+    private String codigoUsuario;
     @Column
     private String username;
     @Column
@@ -26,7 +26,7 @@ public class Usuario {
     }
 
     public Usuario(String codigoUsuario, String username, String password, String email, String rol, int estado) {
-        CodigoUsuario = codigoUsuario;
+        codigoUsuario = codigoUsuario;
         this.username = username;
         this.password = password;
         this.email = email;
@@ -34,12 +34,12 @@ public class Usuario {
         this.estado = estado;
     }
 
-    public String getCodigoUsuario() {
-        return CodigoUsuario;
+    public String getcodigoUsuario() {
+        return codigoUsuario;
     }
 
-    public void setCodigoUsuario(String codigoUsuario) {
-        CodigoUsuario = codigoUsuario;
+    public void setcodigoUsuario(String codigoUsuario) {
+        codigoUsuario = codigoUsuario;
     }
 
     public String getUsername() {

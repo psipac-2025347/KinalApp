@@ -15,62 +15,76 @@ import java.util.Optional;
 public class ProductoService implements IProductoService {
 
 
-    private final ProductoRepository ProductoRepository;
+    private final ProductoRepository productoRepository;
 
-    public ProductoService(ProductoRepository ProductoRepository) {
-        this.ProductoRepository = ProductoRepository;
+    public ProductoService(ProductoRepository productoRepository) {
+        this.productoRepository = productoRepository;
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Producto> listarTodos() {
 
-        return ProductoRepository.findAll();
+        return productoRepository.findAll();
     }
 
     @Override
     public Producto guardar(Producto producto) {
-        validarProducto(producto);
-        return ProductoRepository.save(producto);
+        validarProductoNuevo(producto);
+        return productoRepository.save(producto);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Optional<Producto> buscarPorcodigoProducto(Long codigoProducto) {
-        return ProductoRepository.findById((codigoProducto));
+        return productoRepository.findById((codigoProducto));
     }
 
     @Override
     public Producto actualizar(Long codigoProducto, Producto producto) {
 
-        if (!ProductoRepository.existsById(codigoProducto)) {
+        if (!productoRepository.existsById(codigoProducto)) {
             throw new RuntimeException("Producto no encontrado: ");
         }
 
         producto.setCodigoProducto(codigoProducto);
         validarProducto(producto);
-        return ProductoRepository.save(producto);
+        return productoRepository.save(producto);
     }
 
     @Override
     public void eliminar(Long codigoProducto) {
-        if (!ProductoRepository.existsById(codigoProducto)) {
+        if (!productoRepository.existsById(codigoProducto)) {
             throw new RuntimeException("Producto no encontrado: ");
         }
-        ProductoRepository.deleteById(codigoProducto);
+        productoRepository.deleteById(codigoProducto);
     }
-
 
 
     @Override
     public boolean existePorcodigoProducto(Long codigoProducto) {
-        return ProductoRepository.existsById((codigoProducto));
+        return productoRepository.existsById((codigoProducto));
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Producto> listarPorEstado(Long estado) {
-        return ProductoRepository.findByEstado(estado);
+        return productoRepository.findByEstado(estado);
+    }
+
+    private void validarProductoNuevo(Producto producto) {
+        if (producto.getNombreProducto() == null || producto.getNombreProducto().trim().isEmpty()) {
+            throw new IllegalArgumentException("El nombre del producto es obligatorio");
+        }
+        if (producto.getPrecio() == null) {
+            throw new IllegalArgumentException("El precio es obligatorio");
+        }
+        if (producto.getPrecio().compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("El precio debe ser mayor a cero");
+        }
+        if (producto.getStock() == null) {
+            throw new IllegalArgumentException("El stock no puede ser negativo");
+        }
     }
 
     private void validarProducto(Producto producto) {
@@ -78,16 +92,16 @@ public class ProductoService implements IProductoService {
             throw new IllegalArgumentException("El codigoProducto es obligatorio");
         }
         if (producto.getNombreProducto() == null || producto.getNombreProducto().trim().isEmpty()) {
-            throw new IllegalArgumentException("El username es obligatorio");
+            throw new IllegalArgumentException("El nombre del producto es obligatorio");
         }
         if (producto.getPrecio() == null) {
-            throw new IllegalArgumentException("El precio  es obligatorio");
+            throw new IllegalArgumentException("El precio es obligatorio");
         }
-        if (producto.getPrecio().compareTo(BigDecimal.ZERO)<=0){
-            throw new IllegalArgumentException("El precio  debe ser mayor a cero");
+        if (producto.getPrecio().compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("El precio debe ser mayor a cero");
         }
-        if (producto.getStock() < 0) {
-            throw new IllegalArgumentException("El Stock no puede ser negativo");
+        if (producto.getStock() == null) {
+            throw new IllegalArgumentException("El stock no puede ser negativo");
         }
     }
 }

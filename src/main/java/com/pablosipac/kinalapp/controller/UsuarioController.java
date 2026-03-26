@@ -43,7 +43,7 @@ public class UsuarioController {
         }
     }
 
-    @DeleteMapping("/{dpi}")
+    @DeleteMapping("/{codigoUsuario}")
     public ResponseEntity<Void> eliminar(@PathVariable Long codigoUsuario){
         //ResponseEntity<void>
         try{

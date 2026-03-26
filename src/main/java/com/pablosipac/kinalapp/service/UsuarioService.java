@@ -28,7 +28,7 @@ public class UsuarioService implements IUsuarioService {
 
     @Override
         public Usuario guardar(Usuario usuario) {
-        validarUsuario(usuario);
+        validarUsuarioNuevo(usuario);
         return usuarioRepository.save(usuario);
     }
 
@@ -56,8 +56,6 @@ public class UsuarioService implements IUsuarioService {
         usuarioRepository.deleteById(codigoUsuario);
     }
 
-
-
     @Override
     public boolean existePorcodigoUsuario(Long codigoUsuario) {
         return usuarioRepository.existsById((codigoUsuario));
@@ -69,6 +67,22 @@ public class UsuarioService implements IUsuarioService {
         return usuarioRepository.findByEstado(estado);
     }
 
+    private void validarUsuarioNuevo(Usuario usuario) {
+        if (usuario.getUsername() == null || usuario.getUsername().trim().isEmpty()) {
+            throw new IllegalArgumentException("El username es obligatorio");
+        }
+        if (usuario.getPassword() == null || usuario.getPassword().trim().isEmpty()) {
+            throw new IllegalArgumentException("La contraseña es obligatoria");
+        }
+        if (usuario.getEmail() == null || usuario.getEmail().trim().isEmpty()) {
+            throw new IllegalArgumentException("El email es obligatorio");
+        }
+        if (usuario.getRol() == null || usuario.getRol().trim().isEmpty()) {
+            throw new IllegalArgumentException("El rol es obligatorio");
+        }
+    }
+
+    // Validación para PUT — sí requiere codigoUsuario
     private void validarUsuario(Usuario usuario) {
         if (usuario.getCodigoUsuario() == null) {
             throw new IllegalArgumentException("El codigoUsuario es obligatorio");

@@ -18,12 +18,12 @@ public class Usuario {
     @Column
     private String rol;
     @Column
-    private int estado;
+    private Long estado;
 
     public Usuario() {
     }
 
-    public Usuario(Long codigoUsuario, String username, String password, String email, String rol, int estado) {
+    public Usuario(Long codigoUsuario, String username, String password, String email, String rol, Long estado) {
         this.codigoUsuario = codigoUsuario;
         this.username = username;
         this.password = password;
@@ -72,11 +72,11 @@ public class Usuario {
         this.rol = rol;
     }
 
-    public int getEstado() {
+    public Long getEstado() {
         return estado;
     }
 
-    public void setEstado(int estado) {
+    public void setEstado(Long estado) {
         this.estado = estado;
     }
 }

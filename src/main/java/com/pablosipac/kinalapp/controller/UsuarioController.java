@@ -25,8 +25,8 @@ public class UsuarioController {
     }
 
     @GetMapping("/{codigoUsuario}")
-    public ResponseEntity<Usuario> buscarPorDPI(@PathVariable String dpi){
-        return usuarioService.buscarPorcodigoUsuario(dpi)
+    public ResponseEntity<Usuario> buscarPorDPI(@PathVariable Long codigoUsuario){
+        return usuarioService.buscarPorcodigoUsuario(codigoUsuario)
                 //Si opcional tiene valor devuelve  200 OK con el cliente
                 .map(ResponseEntity::ok)
                 //Si Opcional esta vacio, devuelve 404 NOT FOUND
@@ -43,8 +43,8 @@ public class UsuarioController {
         }
     }
 
-    @DeleteMapping("/{dpi}")
-    public ResponseEntity<Void> eliminar(@PathVariable String codigoUsuario){
+    @DeleteMapping("/{codigoUsuario}")
+    public ResponseEntity<Void> eliminar(@PathVariable Long codigoUsuario){
         //ResponseEntity<void>
         try{
             if (!usuarioService.existePorcodigoUsuario(codigoUsuario)){
@@ -59,7 +59,7 @@ public class UsuarioController {
     }
 
     @PutMapping("/{codigoUsuario}")
-    public ResponseEntity<?> actualizar (@PathVariable String codigoUsuario, @RequestBody Usuario usuario){
+    public ResponseEntity<?> actualizar (@PathVariable Long codigoUsuario, @RequestBody Usuario usuario){
         try{
             if (!usuarioService.existePorcodigoUsuario(codigoUsuario)){
                 //Verificar si existe antes de actualizar
@@ -80,7 +80,7 @@ public class UsuarioController {
     }
     @GetMapping("/activos")
     public ResponseEntity<List<Usuario>> listarEstado() {
-        List<Usuario> usuarios = usuarioService.listarPorEstado(1);
+        List<Usuario> usuarios = usuarioService.listarPorEstado(1L);
 
         if (usuarios.isEmpty()) {
             return ResponseEntity.noContent().build();

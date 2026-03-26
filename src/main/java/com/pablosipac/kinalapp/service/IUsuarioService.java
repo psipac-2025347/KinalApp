@@ -9,15 +9,15 @@ public interface IUsuarioService {
 
     List<Usuario>listarTodos();
 
-    Optional<Usuario> buscarPorcodigoUsuario(String codigoUsuario);
+    Optional<Usuario> buscarPorcodigoUsuario(Long codigoUsuario);
 
     Usuario guardar (Usuario usuario);
     
-    Usuario actualizar(String codigoUsuario, Usuario usuario);
+    Usuario actualizar(Long codigoUsuario, Usuario usuario);
     
-    void eliminar(String codigoUsuario );
+    void eliminar(Long codigoUsuario );
     
-    boolean existePorcodigoUsuario (String codigoUsuario);
+    boolean existePorcodigoUsuario (Long codigoUsuario);
 
     List<Usuario> listarPorEstado(int estado);
 

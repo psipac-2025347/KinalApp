@@ -34,35 +34,33 @@ public class UsuarioService implements IUsuarioService {
 
         @Override
         @Transactional(readOnly = true)
-        public Optional<Usuario> buscarPorcodigoUsuario(String codigoUsuario) {
-        return usuarioRepository.findById(Long.parseLong(codigoUsuario));
+        public Optional<Usuario> buscarPorcodigoUsuario(Long codigoUsuario) {
+        return usuarioRepository.findById((codigoUsuario));
     }
 
     @Override
-    public Usuario actualizar(String codigoUsuario, Usuario usuario) {
-        Long id = Long.parseLong(codigoUsuario);
-
-        if (!usuarioRepository.existsById(id)) {
-            throw new RuntimeException("Usuario no encontrado: " + id);
+    public Usuario actualizar(Long codigoUsuario, Usuario usuario) {
+        if (!usuarioRepository.existsById(codigoUsuario)) {
+            throw new RuntimeException("Usuario no encontrado: ");
         }
-
-        usuario.setCodigoUsuario(id);
+        usuario.setCodigoUsuario(codigoUsuario);
         validarUsuario(usuario);
         return usuarioRepository.save(usuario);
     }
 
     @Override
-    public void eliminar(String codigoUsuario) {
-        Long id = Long.parseLong(codigoUsuario);
-        if (!usuarioRepository.existsById(id)) {
+    public void eliminar(Long codigoUsuario) {
+        if (!usuarioRepository.existsById(codigoUsuario)) {
             throw new RuntimeException("Usuario no encontrado: ");
         }
-        usuarioRepository.deleteById(id);
+        usuarioRepository.deleteById(codigoUsuario);
     }
 
+
+
     @Override
-    public boolean existePorcodigoUsuario(String codigoUsuario) {
-        return usuarioRepository.existsById(Long.parseLong(codigoUsuario));
+    public boolean existePorcodigoUsuario(Long codigoUsuario) {
+        return usuarioRepository.existsById((codigoUsuario));
     }
 
     @Override

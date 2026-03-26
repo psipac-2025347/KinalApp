@@ -1,4 +1,4 @@
-# kinalApp
+# KinalApp
 
 Programa que lleva el registro de los usuarios, detalles de venta, clientes y productos con cada uno su respectivo CRUD funcional.
 

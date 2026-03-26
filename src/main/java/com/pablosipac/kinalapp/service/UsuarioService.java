@@ -1,114 +1,91 @@
 package com.pablosipac.kinalapp.service;
 
+import org.springframework.transaction.annotation.Transactional;
 import com.pablosipac.kinalapp.entity.Usuario;
 import com.pablosipac.kinalapp.repository.UsuarioRepository;
+import com.pablosipac.kinalapp.service.IUsuarioService;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @Transactional
+public class UsuarioService implements IUsuarioService {
 
-public class UsuarioService implements IUsuarioService  {
-    private final UsuarioRepository UsuarioRepository;
+    private final UsuarioRepository usuarioRepository;
 
-    public UsuarioService(UsuarioRepository UsuarioRepository) {
-        this.UsuarioRepository = UsuarioRepository;
-
-    }
-
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<Usuario> listarTodos() {
-        return UsuarioRepository.findAll();
-    }
-
-
-
-    @Override
-    public Usuario guardar(Usuario Usuario) {
-        return UsuarioRepository.save(Usuario);
+    public UsuarioService(UsuarioRepository usuarioRepository) {
+        this.usuarioRepository = usuarioRepository;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Usuario> buscarPorcodigoUsuario(String codigoUsuario) {
-        //Busca un Usuario por codigoUsuario
-        return UsuarioRepository.findById(codigoUsuario);
-        //Optional nos evita el NullPointerException
+        public List<Usuario> listarTodos() {
+
+        return usuarioRepository.findAll();
     }
 
     @Override
-    public Usuario actualizar(String codigoUsuario, Usuario Usuario) {
+        public Usuario guardar(Usuario usuario) {
+        validarUsuario(usuario);
+        return usuarioRepository.save(usuario);
+    }
 
-        if(!UsuarioRepository.existsById((codigoUsuario))){
-            throw new RuntimeException("El Usuario no se encontro con el codigoUsuario"+codigoUsuario);
+        @Override
+        @Transactional(readOnly = true)
+        public Optional<Usuario> buscarPorcodigoUsuario(String codigoUsuario) {
+        return usuarioRepository.findById(Long.parseLong(codigoUsuario));
+    }
 
+    @Override
+    public Usuario actualizar(String codigoUsuario, Usuario usuario) {
+        Long id = Long.parseLong(codigoUsuario);
+
+        if (!usuarioRepository.existsById(id)) {
+            throw new RuntimeException("Usuario no encontrado: " + id);
         }
-        Usuario.setcodigoUsuario(Integer.parseInt(codigoUsuario));
-        //Aseguramos que el codigoUsuario del objeto coincida con el de la URL
-        //Por seguridad usamos el codigoUsuario de la URL y no el que viene en el JSON
-        validarUsuario(Usuario);
-        return UsuarioRepository.save(Usuario);
-        /*
-         * save() este no solo sirve para guardar sino para actualizar tambien
-         * si el dato existe (codigoUsuario) entonces hace UPDATE pero si no existe hace un
-         * INSERT pero antes verificamos si existe o no el registro
-         */
 
+        usuario.setCodigoUsuario(id);
+        validarUsuario(usuario);
+        return usuarioRepository.save(usuario);
     }
 
     @Override
     public void eliminar(String codigoUsuario) {
-        //Eliminar un Usuario
-        if (!UsuarioRepository.existsById(codigoUsuario)){
-            throw new RuntimeException("El Usuario no se encontro con el codigoUsuario"+ codigoUsuario);
+        Long id = Long.parseLong(codigoUsuario);
+        if (!usuarioRepository.existsById(id)) {
+            throw new RuntimeException("Usuario no encontrado: ");
         }
-        UsuarioRepository.deleteById(codigoUsuario);
+        usuarioRepository.deleteById(id);
     }
 
     @Override
     public boolean existePorcodigoUsuario(String codigoUsuario) {
-        //Verifica si existe un Usuario
-        return UsuarioRepository.existsById(codigoUsuario);
+        return usuarioRepository.existsById(Long.parseLong(codigoUsuario));
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Usuario> listarPorEstado(int estado) {
-        return UsuarioRepository.findByEstado(1);
+        return usuarioRepository.findByEstado(estado);
     }
 
-
-    //Metodo privado( Solo se puede usar dentro de la clase)
-    private void validarUsuario (Usuario Usuario){
-        /*
-         *   Validaciones del negocio: este metodo se usara
-         * es algo interno del servicio
-         */
-        if(Usuario.getcodigoUsuario()== null || Usuario.getcodigoUsuario()==null){
-            //si el codigoUsuario es null o vacio despues de quitar espacios
-            //lanza una excepcion con un mensaje
-            throw new IllegalArgumentException("El codigoUsuario es un dato obligatorio");
+    private void validarUsuario(Usuario usuario) {
+        if (usuario.getCodigoUsuario() == null) {
+            throw new IllegalArgumentException("El codigoUsuario es obligatorio");
         }
-
-        if(Usuario.getUsername()== null || Usuario.getUsername().trim().isEmpty()){
-            throw new IllegalArgumentException("El Usuario es un dato obligatorio");
+        if (usuario.getUsername() == null || usuario.getUsername().trim().isEmpty()) {
+            throw new IllegalArgumentException("El username es obligatorio");
         }
-
-        if(Usuario.getPassword()== null || Usuario.getPassword().trim().isEmpty()){
-            throw new IllegalArgumentException("La contraseña es un dato obligatorio");
+        if (usuario.getPassword() == null || usuario.getPassword().trim().isEmpty()) {
+            throw new IllegalArgumentException("La contraseña es obligatoria");
         }
-
-        if(Usuario.getEmail()== null || Usuario.getEmail().trim().isEmpty()){
-            throw new IllegalArgumentException("El Email es un dato obligatorio");
+        if (usuario.getEmail() == null || usuario.getEmail().trim().isEmpty()) {
+            throw new IllegalArgumentException("El email es obligatorio");
         }
-
-        if(Usuario.getRol()== null || Usuario.getRol().trim().isEmpty()){
-            throw new IllegalArgumentException("El Rol es un dato obligatorio");
+        if (usuario.getRol() == null || usuario.getRol().trim().isEmpty()) {
+            throw new IllegalArgumentException("El rol es obligatorio");
         }
     }
 }

@@ -19,10 +19,10 @@ public class Producto {
     private BigDecimal precio;
 
     @Column
-    private int stock;
+    private Long stock;
 
     @Column
-    private int estado;
+    private Long estado;
 
 
     public Producto() {
@@ -53,19 +53,19 @@ public class Producto {
         this.precio = precio;
     }
 
-    public int getStock() {
+    public Long getStock() {
         return stock;
     }
 
-    public void setStock(int stock) {
+    public void setStock(Long stock) {
         this.stock = stock;
     }
 
-    public int getEstado() {
+    public Long getEstado() {
         return estado;
     }
 
-    public void setEstado(int estado) {
+    public void setEstado(Long estado) {
         this.estado = estado;
     }
 }

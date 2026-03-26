@@ -80,7 +80,7 @@ public class UsuarioController {
     }
     @GetMapping("/activos")
     public ResponseEntity<List<Usuario>> listarEstado() {
-        List<Usuario> usuarios = usuarioService.listarPorEstado(1);
+        List<Usuario> usuarios = usuarioService.listarPorEstado(1L);
 
         if (usuarios.isEmpty()) {
             return ResponseEntity.noContent().build();

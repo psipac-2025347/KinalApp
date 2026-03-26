@@ -18,6 +18,6 @@ public interface IProductoService {
 
     boolean existePorcodigoProducto (Long codigoProducto);
 
-    List<Producto> listarPorEstado(int estado);
+    List<Producto> listarPorEstado(Long estado);
 
 }

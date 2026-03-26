@@ -14,6 +14,7 @@ import java.util.Optional;
 @Transactional
 public class ProductoService implements IProductoService {
 
+
     private final ProductoRepository ProductoRepository;
 
     public ProductoService(ProductoRepository ProductoRepository) {
@@ -68,7 +69,7 @@ public class ProductoService implements IProductoService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Producto> listarPorEstado(int estado) {
+    public List<Producto> listarPorEstado(Long estado) {
         return ProductoRepository.findByEstado(estado);
     }
 

@@ -65,7 +65,7 @@ public class UsuarioService implements IUsuarioService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Usuario> listarPorEstado(int estado) {
+    public List<Usuario> listarPorEstado(Long estado) {
         return usuarioRepository.findByEstado(estado);
     }
 

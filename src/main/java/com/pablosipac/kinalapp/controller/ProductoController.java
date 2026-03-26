@@ -76,7 +76,7 @@ public class ProductoController {
     }
     @GetMapping("/activos")
     public ResponseEntity<List<Producto>> listarEstado() {
-        List<Producto> productos = productoService.listarPorEstado(1);
+        List<Producto> productos = productoService.listarPorEstado(1L);
 
         if (productos.isEmpty()) {
             return ResponseEntity.noContent().build();

@@ -19,6 +19,6 @@ public interface IUsuarioService {
     
     boolean existePorcodigoUsuario (Long codigoUsuario);
 
-    List<Usuario> listarPorEstado(int estado);
+    List<Usuario> listarPorEstado(Long estado);
 
 }

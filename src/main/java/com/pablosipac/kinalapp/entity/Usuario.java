@@ -1,16 +1,14 @@
 package com.pablosipac.kinalapp.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "usuarios")
 public class Usuario {
     @Id
-    @Column (name = "codigo_usuario")
-    private String codigoUsuario;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "codigo_usuario")
+    private Long codigoUsuario;
     @Column
     private String username;
     @Column
@@ -25,8 +23,8 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(String codigoUsuario, String username, String password, String email, String rol, int estado) {
-        codigoUsuario = codigoUsuario;
+    public Usuario(Long codigoUsuario, String username, String password, String email, String rol, int estado) {
+        this.codigoUsuario = codigoUsuario;
         this.username = username;
         this.password = password;
         this.email = email;
@@ -34,12 +32,12 @@ public class Usuario {
         this.estado = estado;
     }
 
-    public String getcodigoUsuario() {
+    public Long getCodigoUsuario() {
         return codigoUsuario;
     }
 
-    public void setcodigoUsuario(String codigoUsuario) {
-        codigoUsuario = codigoUsuario;
+    public void setCodigoUsuario(Long codigoUsuario) {
+        this.codigoUsuario = codigoUsuario;
     }
 
     public String getUsername() {

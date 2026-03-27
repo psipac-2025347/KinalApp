@@ -1,29 +1,30 @@
 package com.pablosipac.kinalapp.controller;
 
-import com.pablosipac.kinalapp.entity.Usuario;
-import com.pablosipac.kinalapp.service.IUsuarioService;
+import com.pablosipac.kinalapp.entity.Venta;
+import com.pablosipac.kinalapp.service.IVentaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class VentaController {
-    private final IUsuarioService usuarioService;
+    private final IVentaService VentaService;
 
-    public UsuarioController(IUsuarioService usuarioService) {
-        this.usuarioService = usuarioService;
+    public VentaController(IVentaService VentaService) {
+        this.VentaService = VentaService;
     }
 
     @GetMapping
-    public ResponseEntity<List<Usuario>> listar(){
-        List<Usuario> usuarios = usuarioService.listarTodos();
-        return ResponseEntity.ok(usuarios);
+    public ResponseEntity<List<Venta>> listar(){
+        List<Venta> ventas = VentaService.listarTodos();
+        return ResponseEntity.ok(ventas);
     }
 
-    @GetMapping("/{codigoUsuario}")
-    public ResponseEntity<Usuario> buscarPorDPI(@PathVariable Long codigoUsuario){
-        return usuarioService.buscarPorcodigoUsuario(codigoUsuario)
+    @GetMapping("/{codigoVenta}")
+    public ResponseEntity<Venta> buscarPorDPI(@PathVariable Long codigoVenta){
+        return VentaService.buscarPorCodigoVenta(codigoVenta)
                 //Si opcional tiene valor devuelve  200 OK con el cliente
                 .map(ResponseEntity::ok)
                 //Si Opcional esta vacio, devuelve 404 NOT FOUND
@@ -31,23 +32,23 @@ public class VentaController {
     }
 
     @PostMapping
-    public ResponseEntity<?> guardar(@RequestBody Usuario usuario){
+    public ResponseEntity<?> guardar(@RequestBody Venta venta){
         try {
-            Usuario nuevoUsuario = usuarioService.guardar(usuario);
-            return new ResponseEntity<>(nuevoUsuario, HttpStatus.CREATED);
+            Venta nuevaVenta = VentaService.guardar(venta);
+            return new ResponseEntity<>(nuevaVenta, HttpStatus.CREATED);
         }catch (IllegalArgumentException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    @DeleteMapping("/{codigoUsuario}")
-    public ResponseEntity<Void> eliminar(@PathVariable Long codigoUsuario){
+    @DeleteMapping("/{codigoVenta}")
+    public ResponseEntity<Void> eliminar(@PathVariable Long codigoVenta){
         //ResponseEntity<void>
         try{
-            if (!usuarioService.existePorcodigoUsuario(codigoUsuario)){
+            if (!VentaService.existePorCodigoVenta(codigoVenta)){
                 return ResponseEntity.notFound().build();
             }
-            usuarioService.eliminar(codigoUsuario);
+            VentaService.eliminar(codigoVenta);
             return ResponseEntity.noContent().build();
         }catch (RuntimeException e){
             return ResponseEntity.notFound().build();
@@ -55,33 +56,53 @@ public class VentaController {
 
     }
 
-    @PutMapping("/{codigoUsuario}")
-    public ResponseEntity<?> actualizar (@PathVariable Long codigoUsuario, @RequestBody Usuario usuario){
+    @PutMapping("/{codigoVenta}")
+    public ResponseEntity<?> actualizar (@PathVariable Long codigoVenta, @RequestBody Venta venta){
         try{
-            if (!usuarioService.existePorcodigoUsuario(codigoUsuario)){
-                //Verificar si existe antes de actualizar
+            if (!VentaService.existePorCodigoVenta(codigoVenta)){
                 return ResponseEntity.notFound().build();
-                //404 NOT FOUND
             }
-            //actualizamos el cliente pero esto puede causar una excepcion
-            Usuario usuarioActualizado = usuarioService.actualizar(codigoUsuario, usuario);
-            return ResponseEntity.ok(usuarioActualizado);
-            //200 ok con el cliente ya actualizado
+            Venta VentaActualizado = VentaService.actualizar(codigoVenta, venta);
+            return ResponseEntity.ok(VentaActualizado);
         }catch(IllegalArgumentException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }catch (RuntimeException e){
-            //Posiblemente cualquier otro error como: cliente no encontrado, etc.
-            //404 NOT FOUND
             return ResponseEntity.notFound().build();
         }
     }
     @GetMapping("/activos")
-    public ResponseEntity<List<Usuario>> listarEstado() {
-        List<Usuario> usuarios = usuarioService.listarPorEstado(1L);
+    public ResponseEntity<List<Venta>> listarEstado() {
+        List<Venta> ventas = VentaService.listarPorEstado(1L);
 
-        if (usuarios.isEmpty()) {
+        if (ventas.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.ok(usuarios);
+        return ResponseEntity.ok(ventas);
     }
+    @GetMapping("/clientes/{dpiCliente}")
+    public ResponseEntity<List<Venta>> buscarPorDPICliente(@PathVariable String dpiCliente){
+        List<Venta> ventas = VentaService.buscarPorCliente(dpiCliente);
+        if (ventas.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(ventas);
+
+    }
+    @GetMapping("/usuario/{codigoUsuario}")
+    public ResponseEntity<List<Venta>> buscarPorUsuario(@PathVariable Long codigoUsuario){
+        List<Venta> ventas = VentaService.buscarPorUsuario(codigoUsuario);
+        if (ventas.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(ventas);
+    }
+    @GetMapping("/fecha/{fechaVenta}")
+    public ResponseEntity<List<Venta>> buscarPorFecha(@PathVariable LocalDate fechaVenta){
+        List<Venta> ventas = VentaService.buscarPorFecha(fechaVenta);
+        if (ventas.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(ventas);
+    }
+
 }

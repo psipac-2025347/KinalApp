@@ -22,9 +22,7 @@ public class VentaService implements IVentaService {
     private final UsuarioRepository usuarioRepository;
     private final ClienteRepository clienteRepository;
 
-    public VentaService(VentaRepository ventaRepository,
-                        UsuarioRepository usuarioRepository,
-                        ClienteRepository clienteRepository) {
+    public VentaService(VentaRepository ventaRepository, UsuarioRepository usuarioRepository, ClienteRepository clienteRepository) {
         this.ventaRepository = ventaRepository;
         this.usuarioRepository = usuarioRepository;
         this.clienteRepository = clienteRepository;
@@ -140,4 +138,3 @@ public class VentaService implements IVentaService {
         return ventaRepository.findByFechaVenta(fechaVenta);
     }
 }
- 

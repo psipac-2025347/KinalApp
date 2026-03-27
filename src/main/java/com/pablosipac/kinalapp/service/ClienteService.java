@@ -105,8 +105,8 @@ public class ClienteService implements IClienteService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Cliente> listarPorEstado(int estado) {
-        return clienteRepository.findByEstado(1);
+    public List<Cliente> listarPorEstado(Long estado) {
+        return clienteRepository.findByEstado(estado);
     }
 
 

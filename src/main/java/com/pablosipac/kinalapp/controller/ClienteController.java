@@ -102,7 +102,7 @@ public class ClienteController {
     }
     @GetMapping("/activos")
     public ResponseEntity<List<Cliente>> listarEstado() {
-        List<Cliente> clientes = clienteService.listarPorEstado(1);
+        List<Cliente> clientes = clienteService.listarPorEstado(1L);
 
         if (clientes.isEmpty()) {
             return ResponseEntity.noContent().build();

@@ -1,21 +1,32 @@
 package com.pablosipac.kinalapp.service;
 
 import com.pablosipac.kinalapp.entity.DetalleVenta;
+import com.pablosipac.kinalapp.entity.Producto;
+import com.pablosipac.kinalapp.entity.Venta;
 import com.pablosipac.kinalapp.repository.DetalleVentaRepository;
+import com.pablosipac.kinalapp.repository.ProductoRepository;
+import com.pablosipac.kinalapp.repository.VentaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
+//FUNCIONAAAAAAA
 @Service
 @Transactional
 public class DetalleVentaService implements IDetalleVentaService {
 
     private final DetalleVentaRepository detalleVentaRepository;
+    private final ProductoRepository productoRepository;
+    private final VentaRepository ventaRepository;
 
-    public DetalleVentaService(DetalleVentaRepository detalleVentaRepository) {
+    // Constructor actualizado con los 3 repositorios
+    public DetalleVentaService(DetalleVentaRepository detalleVentaRepository, ProductoRepository productoRepository, VentaRepository ventaRepository) {
         this.detalleVentaRepository = detalleVentaRepository;
+        this.productoRepository = productoRepository;
+        this.ventaRepository = ventaRepository;
     }
 
     @Override
@@ -33,6 +44,17 @@ public class DetalleVentaService implements IDetalleVentaService {
     @Override
     public DetalleVenta guardar(DetalleVenta detalleVenta) {
         validarDetalleNuevo(detalleVenta);
+
+        //Busca la llave foranea para conseguir el codigo Producto
+        Producto producto = productoRepository.findById(detalleVenta.getProducto().getCodigoProducto())
+                .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado"));
+        detalleVenta.setProducto(producto);
+
+        //Busca la llave foranea para conseguir venta
+        Venta venta = ventaRepository.findById(detalleVenta.getVenta().getCodigoVenta())
+                .orElseThrow(() -> new IllegalArgumentException("Venta no encontrada"));
+        detalleVenta.setVenta(venta);
+
         return detalleVentaRepository.save(detalleVenta);
     }
 
@@ -43,6 +65,17 @@ public class DetalleVentaService implements IDetalleVentaService {
         }
         detalleVenta.setCodigoDetalleVenta(codigoDetalleVenta);
         validarDetalle(detalleVenta);
+
+        // Buscar Producto real en BD para resolver la llave foranea
+        Producto producto = productoRepository.findById(detalleVenta.getProducto().getCodigoProducto())
+                .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado"));
+        detalleVenta.setProducto(producto);
+
+        // Buscar Venta real en BD para resolver la llave foranea
+        Venta venta = ventaRepository.findById(detalleVenta.getVenta().getCodigoVenta())
+                .orElseThrow(() -> new IllegalArgumentException("Venta no encontrada"));
+        detalleVenta.setVenta(venta);
+
         return detalleVentaRepository.save(detalleVenta);
     }
 
@@ -59,6 +92,11 @@ public class DetalleVentaService implements IDetalleVentaService {
         return detalleVentaRepository.existsById(codigoDetalleVenta);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<DetalleVenta> listarPorEstado(Long estado) {
+        return detalleVentaRepository.findByEstado(estado);
+    }
 
     @Override
     @Transactional(readOnly = true)
@@ -72,7 +110,7 @@ public class DetalleVentaService implements IDetalleVentaService {
         return detalleVentaRepository.findByProductoCodigoProducto(codigoProducto);
     }
 
-    // Validación para POST — sin codigoDetalleVenta
+    // Validacion para POST
     private void validarDetalleNuevo(DetalleVenta detalleVenta) {
         if (detalleVenta.getCantidad() == null || detalleVenta.getCantidad() <= 0) {
             throw new IllegalArgumentException("La cantidad debe ser mayor a cero");
@@ -91,7 +129,7 @@ public class DetalleVentaService implements IDetalleVentaService {
         }
     }
 
-    // Validación para PUT — con codigoDetalleVenta
+    // Validacion para PUT
     private void validarDetalle(DetalleVenta detalleVenta) {
         if (detalleVenta.getCodigoDetalleVenta() == null) {
             throw new IllegalArgumentException("El codigo del detalle es obligatorio");

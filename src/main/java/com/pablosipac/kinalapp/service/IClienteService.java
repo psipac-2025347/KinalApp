@@ -46,5 +46,5 @@ public interface IClienteService {
     //boolean - Retorna true si existe y false si no existe
     boolean existePorDPI (String dpi);
 
-    List<Cliente>listarPorEstado(int estado);
+    List<Cliente>listarPorEstado(Long estado);
 }

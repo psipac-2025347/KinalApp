@@ -1,5 +1,6 @@
 package com.pablosipac.kinalapp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -17,12 +18,14 @@ public class Venta {
     @Column(precision = 10, scale = 2)
     private BigDecimal total;
     @Column
-    private long estado;
+    private Long estado;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Clientes_dpi_cliente")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})//ignora dpi y no lo convierte en JSON
     private Cliente cliente;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Usuarios_codigo_usuario")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})//ignora Usuario y no lo convierte en JSON
     private Usuario usuario;
 
 
@@ -30,7 +33,7 @@ public class Venta {
 
     }
 
-    public Venta(Long codigoVenta, LocalDate fechaVenta, BigDecimal total, long estado, Cliente cliente, Usuario usuario) {
+    public Venta(Long codigoVenta, LocalDate fechaVenta, BigDecimal total, Long estado, Cliente cliente, Usuario usuario) {
         this.codigoVenta = codigoVenta;
         this.fechaVenta = fechaVenta;
         this.total = total;
@@ -63,11 +66,11 @@ public class Venta {
         this.total = total;
     }
 
-    public long getEstado() {
+    public Long getEstado() {
         return estado;
     }
 
-    public void setEstado(long estado) {
+    public void setEstado(Long estado) {
         this.estado = estado;
     }
 

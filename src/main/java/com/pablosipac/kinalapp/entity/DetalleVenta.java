@@ -1,5 +1,6 @@
 package com.pablosipac.kinalapp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 
@@ -21,9 +22,11 @@ public class DetalleVenta {
     private Long estado;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Productos_codigo_producto")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})//ignora codigoProducto y no lo convierte en JSON
     private Producto producto;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Ventas_codigo_venta")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})//ignora codigoProducto y no lo convierte en JSON
     private Venta venta;
 
     public DetalleVenta() {

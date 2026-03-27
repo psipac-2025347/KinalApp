@@ -32,12 +32,14 @@ public class UsuarioService implements IUsuarioService {
         return usuarioRepository.save(usuario);
     }
 
-        @Override
-        @Transactional(readOnly = true)
+    
+    @Override
+    @Transactional(readOnly = true)
         public Optional<Usuario> buscarPorcodigoUsuario(Long codigoUsuario) {
         return usuarioRepository.findById((codigoUsuario));
     }
 
+    //Metodo para actualizar usuario
     @Override
     public Usuario actualizar(Long codigoUsuario, Usuario usuario) {
         if (!usuarioRepository.existsById(codigoUsuario)) {
@@ -47,7 +49,7 @@ public class UsuarioService implements IUsuarioService {
         validarUsuario(usuario);
         return usuarioRepository.save(usuario);
     }
-
+    //Metodo para eliminar Por codigoUsuario
     @Override
     public void eliminar(Long codigoUsuario) {
         if (!usuarioRepository.existsById(codigoUsuario)) {
@@ -56,18 +58,22 @@ public class UsuarioService implements IUsuarioService {
         usuarioRepository.deleteById(codigoUsuario);
     }
 
+    //Se revisan si existe codigo Usuario
     @Override
     public boolean existePorcodigoUsuario(Long codigoUsuario) {
 
         return usuarioRepository.existsById((codigoUsuario));
     }
 
+    //Se listan estados de usuario
     @Override
     @Transactional(readOnly = true)
     public List<Usuario> listarPorEstado(Long estado) {
+
         return usuarioRepository.findByEstado(estado);
     }
 
+    //Validcion para post
     private void validarUsuarioNuevo(Usuario usuario) {
         if (usuario.getUsername() == null || usuario.getUsername().trim().isEmpty()) {
             throw new IllegalArgumentException("El username es obligatorio");
@@ -83,7 +89,7 @@ public class UsuarioService implements IUsuarioService {
         }
     }
 
-    // Validación para PUT — sí requiere codigoUsuario
+    // Validación para PUT
     private void validarUsuario(Usuario usuario) {
         if (usuario.getCodigoUsuario() == null) {
             throw new IllegalArgumentException("El codigoUsuario es obligatorio");

@@ -8,10 +8,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface DetalleVentaRepository extends JpaRepository<DetalleVenta, Long> {
+    List<DetalleVenta> findByProductosCodigoProducto(Long codigoProducto);
 
-    
-    List<DetalleVenta> findByProductosCodigoProducto(Long codigoUsuario);
-
-
-    List<DetalleVenta> findByVentasCodigoVenta(LocalDate fechaVenta);
+    List<DetalleVenta> findByVentasCodigoVenta(Long codigoVenta);
 }

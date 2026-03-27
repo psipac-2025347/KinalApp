@@ -21,11 +21,11 @@ public class Venta {
     private long estado;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Clientes_dpi_cliente")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})//ignora dpi y no lo convierte en JSON
     private Cliente cliente;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Usuarios_codigo_usuario")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})//ignora Usuario y no lo convierte en JSON
     private Usuario usuario;
 
 

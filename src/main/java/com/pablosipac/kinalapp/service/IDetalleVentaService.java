@@ -18,6 +18,7 @@ public interface IDetalleVentaService {
 
     boolean existePorCodigo(Long codigoDetalleVenta);
 
+    List<DetalleVenta> listarPorEstado(Long estado);
 
     List<DetalleVenta> buscarPorVenta(Long codigoVenta);
 

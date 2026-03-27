@@ -11,4 +11,6 @@ public interface DetalleVentaRepository extends JpaRepository<DetalleVenta, Long
 
 
     List<DetalleVenta> findByProductoCodigoProducto(Long codigoProducto);
+
+    List<DetalleVenta> findByEstado(Long estado);
 }

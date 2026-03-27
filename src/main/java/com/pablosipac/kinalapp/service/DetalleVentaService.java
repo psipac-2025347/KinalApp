@@ -59,6 +59,11 @@ public class DetalleVentaService implements IDetalleVentaService {
         return detalleVentaRepository.existsById(codigoDetalleVenta);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<DetalleVenta> listarPorEstado(Long estado) {
+        return detalleVentaRepository.findByEstado(estado);
+    }
 
     @Override
     @Transactional(readOnly = true)

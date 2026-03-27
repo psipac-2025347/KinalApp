@@ -1,6 +1,10 @@
 package com.pablosipac.kinalapp.service;
 
+import com.pablosipac.kinalapp.entity.Cliente;
+import com.pablosipac.kinalapp.entity.Usuario;
 import com.pablosipac.kinalapp.entity.Venta;
+import com.pablosipac.kinalapp.repository.ClienteRepository;
+import com.pablosipac.kinalapp.repository.UsuarioRepository;
 import com.pablosipac.kinalapp.repository.VentaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -124,5 +128,32 @@ public class VentaService implements IVentaService {
         if (venta.getUsuario() == null) {
             throw new IllegalArgumentException("El usuario es obligatorio");
         }
+
+            private final VentaRepository ventaRepository;
+            private final UsuarioRepository usuarioRepository;
+            private final ClienteRepository clienteRepository;
+
+            public VentaService(VentaRepository ventaRepository, UsuarioRepository usuarioRepository, ClienteRepository clienteRepository) {
+                this.ventaRepository = ventaRepository;
+                this.usuarioRepository = usuarioRepository;
+                this.clienteRepository = clienteRepository;
+            }
+
+            @Override
+            public Venta guardar(Venta venta) {
+                Usuario usuario = usuarioRepository.findById(
+                                venta.getUsuario().getCodigoUsuario())
+                        .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
+                venta.setUsuario(usuario);
+
+
+                Cliente cliente = clienteRepository.findById(
+                                venta.getCliente().getDPICliente())
+                        .orElseThrow(() -> new IllegalArgumentException("Cliente no encontrado"));
+                venta.setCliente(cliente);
+
+                validarVentaNueva(venta);
+                return ventaRepository.save(venta);
+            }
     }
 }

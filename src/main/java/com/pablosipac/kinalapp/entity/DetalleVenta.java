@@ -16,6 +16,8 @@ public class DetalleVenta {
     private Long cantidad;
     @Column (precision = 10 , scale = 2)
     private BigDecimal subTotal;
+    @Column
+    private Long estado;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Productos_codigo_producto")
     private Cliente cliente;
@@ -27,10 +29,11 @@ public class DetalleVenta {
 
     }
 
-    public DetalleVenta(Long codigoDetalleVenta, Long cantidad, BigDecimal subTotal, Cliente cliente, Usuario usuario) {
+    public DetalleVenta(Long codigoDetalleVenta, Long cantidad, BigDecimal subTotal, Long estado, Cliente cliente, Usuario usuario) {
         this.codigoDetalleVenta = codigoDetalleVenta;
         this.cantidad = cantidad;
         this.subTotal = subTotal;
+        this.estado = estado;
         this.cliente = cliente;
         this.usuario = usuario;
     }
@@ -57,6 +60,14 @@ public class DetalleVenta {
 
     public void setSubTotal(BigDecimal subTotal) {
         this.subTotal = subTotal;
+    }
+
+    public Long getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Long estado) {
+        this.estado = estado;
     }
 
     public Cliente getCliente() {

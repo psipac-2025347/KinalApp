@@ -12,21 +12,21 @@ import java.util.List;
 @RestController
 @RequestMapping("/ventas")
 public class VentaController {
-    private final IVentaService VentaService;
+    private final IVentaService ventaService;
 
     public VentaController(IVentaService VentaService) {
-        this.VentaService = VentaService;
+        this.ventaService = VentaService;
     }
 
     @GetMapping
     public ResponseEntity<List<Venta>> listar(){
-        List<Venta> ventas = VentaService.listarTodos();
+        List<Venta> ventas = ventaService.listarTodos();
         return ResponseEntity.ok(ventas);
     }
 
     @GetMapping("/{codigoVenta}")
     public ResponseEntity<Venta> buscarPorDPI(@PathVariable Long codigoVenta){
-        return VentaService.buscarPorCodigoVenta(codigoVenta)
+        return ventaService.buscarPorCodigoVenta(codigoVenta)
                 //Si opcional tiene valor devuelve  200 OK con el cliente
                 .map(ResponseEntity::ok)
                 //Si Opcional esta vacio, devuelve 404 NOT FOUND
@@ -36,7 +36,7 @@ public class VentaController {
     @PostMapping
     public ResponseEntity<?> guardar(@RequestBody Venta venta){
         try {
-            Venta nuevaVenta = VentaService.guardar(venta);
+            Venta nuevaVenta = ventaService.guardar(venta);
             return new ResponseEntity<>(nuevaVenta, HttpStatus.CREATED);
         }catch (IllegalArgumentException e){
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -47,10 +47,10 @@ public class VentaController {
     public ResponseEntity<Void> eliminar(@PathVariable Long codigoVenta){
         //ResponseEntity<void>
         try{
-            if (!VentaService.existePorCodigoVenta(codigoVenta)){
+            if (!ventaService.existePorCodigoVenta(codigoVenta)){
                 return ResponseEntity.notFound().build();
             }
-            VentaService.eliminar(codigoVenta);
+            ventaService.eliminar(codigoVenta);
             return ResponseEntity.noContent().build();
         }catch (RuntimeException e){
             return ResponseEntity.notFound().build();
@@ -61,10 +61,10 @@ public class VentaController {
     @PutMapping("/{codigoVenta}")
     public ResponseEntity<?> actualizar (@PathVariable Long codigoVenta, @RequestBody Venta venta){
         try{
-            if (!VentaService.existePorCodigoVenta(codigoVenta)){
+            if (!ventaService.existePorCodigoVenta(codigoVenta)){
                 return ResponseEntity.notFound().build();
             }
-            Venta VentaActualizado = VentaService.actualizar(codigoVenta, venta);
+            Venta VentaActualizado = ventaService.actualizar(codigoVenta, venta);
             return ResponseEntity.ok(VentaActualizado);
         }catch(IllegalArgumentException e){
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -74,7 +74,7 @@ public class VentaController {
     }
     @GetMapping("/activos")
     public ResponseEntity<List<Venta>> listarEstado() {
-        List<Venta> ventas = VentaService.listarPorEstado(1L);
+        List<Venta> ventas = ventaService.listarPorEstado(1L);
 
         if (ventas.isEmpty()) {
             return ResponseEntity.noContent().build();
@@ -83,7 +83,7 @@ public class VentaController {
     }
     @GetMapping("/clientes/{dpiCliente}")
     public ResponseEntity<List<Venta>> buscarPorDPICliente(@PathVariable String dpiCliente){
-        List<Venta> ventas = VentaService.buscarPorCliente(dpiCliente);
+        List<Venta> ventas = ventaService.buscarPorCliente(dpiCliente);
         if (ventas.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
@@ -92,7 +92,7 @@ public class VentaController {
     }
     @GetMapping("/usuario/{codigoUsuario}")
     public ResponseEntity<List<Venta>> buscarPorUsuario(@PathVariable Long codigoUsuario){
-        List<Venta> ventas = VentaService.buscarPorUsuario(codigoUsuario);
+        List<Venta> ventas = ventaService.buscarPorUsuario(codigoUsuario);
         if (ventas.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
@@ -100,7 +100,7 @@ public class VentaController {
     }
     @GetMapping("/fecha/{fechaVenta}")
     public ResponseEntity<List<Venta>> buscarPorFecha(@PathVariable LocalDate fechaVenta){
-        List<Venta> ventas = VentaService.buscarPorFecha(fechaVenta);
+        List<Venta> ventas = ventaService.buscarPorFecha(fechaVenta);
         if (ventas.isEmpty()) {
             return ResponseEntity.noContent().build();
         }

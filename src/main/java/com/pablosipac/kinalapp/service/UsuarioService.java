@@ -19,6 +19,7 @@ public class UsuarioService implements IUsuarioService {
         this.usuarioRepository = usuarioRepository;
     }
 
+    //Se listan todos los usuarios activos y en estado 0
     @Override
     @Transactional(readOnly = true)
         public List<Usuario> listarTodos() {
@@ -26,13 +27,14 @@ public class UsuarioService implements IUsuarioService {
         return usuarioRepository.findAll();
     }
 
+    //Metodo para guardar el usuario
     @Override
         public Usuario guardar(Usuario usuario) {
         validarUsuarioNuevo(usuario);
         return usuarioRepository.save(usuario);
     }
 
-    
+    //metodo para buscar por codigoUsuario (id)
     @Override
     @Transactional(readOnly = true)
         public Optional<Usuario> buscarPorcodigoUsuario(Long codigoUsuario) {

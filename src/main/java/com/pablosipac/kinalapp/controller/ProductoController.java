@@ -35,15 +35,14 @@ public class ProductoController {
     public ResponseEntity<?> guardar(@RequestBody Producto producto){
         try {
             Producto nuevoProducto = productoService.guardar(producto);
-            return new ResponseEntity<>(nuevoProducto, HttpStatus.CREATED);
+            return new ResponseEntity<>(nuevoProducto, HttpStatus.CREATED); //Se creo exitosamente
         }catch (IllegalArgumentException e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());//Te manda badRequest si no se crea
         }
     }
 
     @DeleteMapping("/{codigoProducto}")
     public ResponseEntity<Void> eliminar(@PathVariable Long codigoProducto){
-        //ResponseEntity<void>
         try{
             if (!productoService.existePorcodigoProducto(codigoProducto)){
                 return ResponseEntity.notFound().build();

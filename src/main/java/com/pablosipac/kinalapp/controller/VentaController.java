@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/ventass")
+@RequestMapping("/ventas")
 public class VentaController {
     private final IVentaService VentaService;
 

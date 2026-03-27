@@ -1,6 +1,5 @@
 package com.pablosipac.kinalapp.controller;
 
-
 import com.pablosipac.kinalapp.entity.Usuario;
 import com.pablosipac.kinalapp.service.IUsuarioService;
 import org.springframework.http.HttpStatus;
@@ -9,9 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/usuarios")
-public class UsuarioController {
+public class VentaController {
     private final IUsuarioService usuarioService;
 
     public UsuarioController(IUsuarioService usuarioService) {
@@ -87,5 +84,4 @@ public class UsuarioController {
         }
         return ResponseEntity.ok(usuarios);
     }
-
 }

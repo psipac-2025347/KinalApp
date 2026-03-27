@@ -8,14 +8,11 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface DetalleVentaRepository extends JpaRepository<DetalleVenta, Long> {
-    List<Venta> findByEstado(Long estado);
+    List<DetalleVenta> findByClienteDPICliente(String dpiCliente);
 
 
-    List<Venta> findByClienteDPICliente(String dpiCliente);
+    List<DetalleVenta> findByProductosCodigoProducto(Long codigoUsuario);
 
 
-    List<Venta> findByUsuarioCodigoUsuario(Long codigoUsuario);
-
-
-    List<Venta> findByFechaVenta(LocalDate fechaVenta);
+    List<DetalleVenta> findByVentasCodigoVenta(LocalDate fechaVenta);
 }

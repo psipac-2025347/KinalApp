@@ -1,41 +1,43 @@
 package com.pablosipac.kinalapp.entity;
 
 import jakarta.persistence.*;
-
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 @Entity
-@Table(name= "detalle_venta")
+@Table(name = "detalle_venta")
 public class DetalleVenta {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name= "codigo_detalle_venta")
+    @Column(name = "codigo_detalle_venta")
     private Long codigoDetalleVenta;
     @Column
     private Long cantidad;
-    @Column (precision = 10 , scale = 2)
+    @Column(precision = 10, scale = 2)
+    private BigDecimal precioUnitario;
+    @Column(precision = 10, scale = 2)
     private BigDecimal subTotal;
     @Column
     private Long estado;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Productos_codigo_producto")
-    private Cliente cliente;
+    private Producto producto;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "Ventas_codigo_venta" )
-    private Usuario usuario;
+    @JoinColumn(name = "Ventas_codigo_venta")
+    private Venta venta;
 
     public DetalleVenta() {
 
     }
 
-    public DetalleVenta(Long codigoDetalleVenta, Long cantidad, BigDecimal subTotal, Long estado, Cliente cliente, Usuario usuario) {
+    public DetalleVenta(Long codigoDetalleVenta, Long cantidad, BigDecimal precioUnitario, BigDecimal subTotal, Long estado, Producto producto, Venta venta) {
         this.codigoDetalleVenta = codigoDetalleVenta;
         this.cantidad = cantidad;
+        this.precioUnitario = precioUnitario;
         this.subTotal = subTotal;
         this.estado = estado;
-        this.cliente = cliente;
-        this.usuario = usuario;
+        this.producto = producto;
+        this.venta = venta;
     }
 
     public Long getCodigoDetalleVenta() {
@@ -54,6 +56,14 @@ public class DetalleVenta {
         this.cantidad = cantidad;
     }
 
+    public BigDecimal getPrecioUnitario() {
+        return precioUnitario;
+    }
+
+    public void setPrecioUnitario(BigDecimal precioUnitario) {
+        this.precioUnitario = precioUnitario;
+    }
+
     public BigDecimal getSubTotal() {
         return subTotal;
     }
@@ -70,19 +80,19 @@ public class DetalleVenta {
         this.estado = estado;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public Producto getProducto() {
+        return producto;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public void setProducto(Producto producto) {
+        this.producto = producto;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public Venta getVenta() {
+        return venta;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setVenta(Venta venta) {
+        this.venta = venta;
     }
 }

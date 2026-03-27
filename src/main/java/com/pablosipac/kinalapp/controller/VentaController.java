@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 
+@RestController
+@RequestMapping("/ventass")
 public class VentaController {
     private final IVentaService VentaService;
 

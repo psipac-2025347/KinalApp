@@ -8,8 +8,9 @@ import com.pablosipac.kinalapp.repository.UsuarioRepository;
 import com.pablosipac.kinalapp.repository.VentaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.time.LocalDate;
+
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,9 +19,15 @@ import java.util.Optional;
 public class VentaService implements IVentaService {
 
     private final VentaRepository ventaRepository;
+    private final UsuarioRepository usuarioRepository;
+    private final ClienteRepository clienteRepository;
 
-    public VentaService(VentaRepository ventaRepository) {
+    public VentaService(VentaRepository ventaRepository,
+                        UsuarioRepository usuarioRepository,
+                        ClienteRepository clienteRepository) {
         this.ventaRepository = ventaRepository;
+        this.usuarioRepository = usuarioRepository;
+        this.clienteRepository = clienteRepository;
     }
 
     @Override
@@ -37,7 +44,29 @@ public class VentaService implements IVentaService {
 
     @Override
     public Venta guardar(Venta venta) {
-        validarVentaNueva(venta);
+        // Validaciones
+        if (venta.getUsuario() == null || venta.getUsuario().getCodigoUsuario() == null) {
+            throw new IllegalArgumentException("El usuario es obligatorio");
+        }
+        if (venta.getCliente() == null || venta.getCliente().getDPICliente() == null) {
+            throw new IllegalArgumentException("El cliente es obligatorio");
+        }
+        if (venta.getFechaVenta() == null) {
+            throw new IllegalArgumentException("La fecha de venta es obligatoria");
+        }
+        if (venta.getTotal() == null || venta.getTotal().compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("El total debe ser mayor a cero");
+        }
+
+        // Buscar entidades reales en BD para resolver las llaves foraneas
+        Usuario usuario = usuarioRepository.findById(venta.getUsuario().getCodigoUsuario())
+                .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
+        venta.setUsuario(usuario);
+
+        Cliente cliente = clienteRepository.findById(venta.getCliente().getDPICliente())
+                .orElseThrow(() -> new IllegalArgumentException("Cliente no encontrado"));
+        venta.setCliente(cliente);
+
         return ventaRepository.save(venta);
     }
 
@@ -46,8 +75,31 @@ public class VentaService implements IVentaService {
         if (!ventaRepository.existsById(codigoVenta)) {
             throw new RuntimeException("Venta no encontrada: " + codigoVenta);
         }
+
+        // Validaciones
+        if (venta.getUsuario() == null || venta.getUsuario().getCodigoUsuario() == null) {
+            throw new IllegalArgumentException("El usuario es obligatorio");
+        }
+        if (venta.getCliente() == null || venta.getCliente().getDPICliente() == null) {
+            throw new IllegalArgumentException("El cliente es obligatorio");
+        }
+        if (venta.getFechaVenta() == null) {
+            throw new IllegalArgumentException("La fecha de venta es obligatoria");
+        }
+        if (venta.getTotal() == null || venta.getTotal().compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("El total debe ser mayor a cero");
+        }
+
+        // Buscar entidades reales en BD para resolver las llaves foraneas
+        Usuario usuario = usuarioRepository.findById(venta.getUsuario().getCodigoUsuario())
+                .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
+        venta.setUsuario(usuario);
+
+        Cliente cliente = clienteRepository.findById(venta.getCliente().getDPICliente())
+                .orElseThrow(() -> new IllegalArgumentException("Cliente no encontrado"));
+        venta.setCliente(cliente);
+
         venta.setCodigoVenta(codigoVenta);
-        validarVenta(venta);
         return ventaRepository.save(venta);
     }
 
@@ -82,78 +134,10 @@ public class VentaService implements IVentaService {
         return ventaRepository.findByUsuarioCodigoUsuario(codigoUsuario);
     }
 
-    //Se buscar por la llave foranea
     @Override
     @Transactional(readOnly = true)
     public List<Venta> buscarPorFecha(LocalDate fechaVenta) {
         return ventaRepository.findByFechaVenta(fechaVenta);
     }
-
-    // Validación para POST
-    private void validarVentaNueva(Venta venta) {
-        if (venta.getFechaVenta() == null) {
-            throw new IllegalArgumentException("La fecha de venta es obligatoria");
-        }
-        if (venta.getTotal() == null) {
-            throw new IllegalArgumentException("El total es obligatorio");
-        }
-        if (venta.getTotal().compareTo(BigDecimal.ZERO) <= 0) {
-            throw new IllegalArgumentException("El total debe ser mayor a cero");
-        }
-        if (venta.getCliente() == null) {
-            throw new IllegalArgumentException("El cliente es obligatorio");
-        }
-        if (venta.getUsuario() == null) {
-            throw new IllegalArgumentException("El usuario es obligatorio");
-        }
-    }
-
-    // Validación para PUT
-    private void validarVenta(Venta venta) {
-        if (venta.getCodigoVenta() == null) {
-            throw new IllegalArgumentException("El codigoVenta es obligatorio");
-        }
-        if (venta.getFechaVenta() == null) {
-            throw new IllegalArgumentException("La fecha de venta es obligatoria");
-        }
-        if (venta.getTotal() == null) {
-            throw new IllegalArgumentException("El total es obligatorio");
-        }
-        if (venta.getTotal().compareTo(BigDecimal.ZERO) <= 0) {
-            throw new IllegalArgumentException("El total debe ser mayor a cero");
-        }
-        if (venta.getCliente() == null) {
-            throw new IllegalArgumentException("El cliente es obligatorio");
-        }
-        if (venta.getUsuario() == null) {
-            throw new IllegalArgumentException("El usuario es obligatorio");
-        }
-
-            private final VentaRepository ventaRepository;
-            private final UsuarioRepository usuarioRepository;
-            private final ClienteRepository clienteRepository;
-
-            public VentaService(VentaRepository ventaRepository, UsuarioRepository usuarioRepository, ClienteRepository clienteRepository) {
-                this.ventaRepository = ventaRepository;
-                this.usuarioRepository = usuarioRepository;
-                this.clienteRepository = clienteRepository;
-            }
-
-            @Override
-            public Venta guardar(Venta venta) {
-                Usuario usuario = usuarioRepository.findById(
-                                venta.getUsuario().getCodigoUsuario())
-                        .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
-                venta.setUsuario(usuario);
-
-
-                Cliente cliente = clienteRepository.findById(
-                                venta.getCliente().getDPICliente())
-                        .orElseThrow(() -> new IllegalArgumentException("Cliente no encontrado"));
-                venta.setCliente(cliente);
-
-                validarVentaNueva(venta);
-                return ventaRepository.save(venta);
-            }
-    }
 }
+ 

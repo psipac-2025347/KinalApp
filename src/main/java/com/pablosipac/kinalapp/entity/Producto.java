@@ -11,16 +11,12 @@ public class Producto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "codigo_producto")
     private Long codigoProducto;
-
-    @Column(name = "nombre_producto")
+    @Column
     private String nombreProducto;
-
     @Column(precision = 10, scale = 2)
     private BigDecimal precio;
-
     @Column
     private Long stock;
-
     @Column
     private Long estado;
 

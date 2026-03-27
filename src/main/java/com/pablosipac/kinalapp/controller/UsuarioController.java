@@ -1,6 +1,6 @@
 package com.pablosipac.kinalapp.controller;
 
-import com.pablosipac.kinalapp.entity.Cliente;
+
 import com.pablosipac.kinalapp.entity.Usuario;
 import com.pablosipac.kinalapp.service.IUsuarioService;
 import org.springframework.http.HttpStatus;

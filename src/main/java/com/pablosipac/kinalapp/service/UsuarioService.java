@@ -58,6 +58,7 @@ public class UsuarioService implements IUsuarioService {
 
     @Override
     public boolean existePorcodigoUsuario(Long codigoUsuario) {
+
         return usuarioRepository.existsById((codigoUsuario));
     }
 

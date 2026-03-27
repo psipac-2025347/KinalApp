@@ -19,6 +19,7 @@ public class UsuarioService implements IUsuarioService {
         this.usuarioRepository = usuarioRepository;
     }
 
+    //Se listan todos los usuarios activos y en estado 0
     @Override
     @Transactional(readOnly = true)
         public List<Usuario> listarTodos() {
@@ -26,18 +27,21 @@ public class UsuarioService implements IUsuarioService {
         return usuarioRepository.findAll();
     }
 
+    //Metodo para guardar el usuario
     @Override
         public Usuario guardar(Usuario usuario) {
         validarUsuarioNuevo(usuario);
         return usuarioRepository.save(usuario);
     }
 
-        @Override
-        @Transactional(readOnly = true)
+    //metodo para buscar por codigoUsuario (id)
+    @Override
+    @Transactional(readOnly = true)
         public Optional<Usuario> buscarPorcodigoUsuario(Long codigoUsuario) {
         return usuarioRepository.findById((codigoUsuario));
     }
 
+    //Metodo para actualizar usuario
     @Override
     public Usuario actualizar(Long codigoUsuario, Usuario usuario) {
         if (!usuarioRepository.existsById(codigoUsuario)) {
@@ -47,7 +51,7 @@ public class UsuarioService implements IUsuarioService {
         validarUsuario(usuario);
         return usuarioRepository.save(usuario);
     }
-
+    //Metodo para eliminar Por codigoUsuario
     @Override
     public void eliminar(Long codigoUsuario) {
         if (!usuarioRepository.existsById(codigoUsuario)) {
@@ -56,18 +60,22 @@ public class UsuarioService implements IUsuarioService {
         usuarioRepository.deleteById(codigoUsuario);
     }
 
+    //Se revisan si existe codigo Usuario
     @Override
     public boolean existePorcodigoUsuario(Long codigoUsuario) {
 
         return usuarioRepository.existsById((codigoUsuario));
     }
 
+    //Se listan estados de usuario
     @Override
     @Transactional(readOnly = true)
     public List<Usuario> listarPorEstado(Long estado) {
+
         return usuarioRepository.findByEstado(estado);
     }
 
+    //Validcion para post
     private void validarUsuarioNuevo(Usuario usuario) {
         if (usuario.getUsername() == null || usuario.getUsername().trim().isEmpty()) {
             throw new IllegalArgumentException("El username es obligatorio");
@@ -83,7 +91,7 @@ public class UsuarioService implements IUsuarioService {
         }
     }
 
-    // Validación para PUT — sí requiere codigoUsuario
+    // Validación para PUT
     private void validarUsuario(Usuario usuario) {
         if (usuario.getCodigoUsuario() == null) {
             throw new IllegalArgumentException("El codigoUsuario es obligatorio");

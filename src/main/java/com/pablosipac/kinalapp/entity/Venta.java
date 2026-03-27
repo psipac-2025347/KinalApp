@@ -10,30 +10,31 @@ import java.time.LocalDate;
 public class Venta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name= "codigo_venta")
+    @Column(name = "codigo_venta")
     private Long codigoVenta;
     @Column
     private LocalDate fechaVenta;
-    @Column (precision = 10 , scale = 2)
+    @Column(precision = 10, scale = 2)
     private BigDecimal total;
+    @Column
+    private long estado;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Clientes_dpi_cliente")
     private Cliente cliente;
-
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "Usuarios_codigo_usuario" )
+    @JoinColumn(name = "Usuarios_codigo_usuario")
     private Usuario usuario;
-
 
 
     public Venta() {
 
     }
 
-    public Venta(Long codigoVenta, LocalDate fechaVenta, BigDecimal total, Cliente cliente, Usuario usuario) {
+    public Venta(Long codigoVenta, LocalDate fechaVenta, BigDecimal total, long estado, Cliente cliente, Usuario usuario) {
         this.codigoVenta = codigoVenta;
         this.fechaVenta = fechaVenta;
         this.total = total;
+        this.estado = estado;
         this.cliente = cliente;
         this.usuario = usuario;
     }
@@ -62,6 +63,14 @@ public class Venta {
         this.total = total;
     }
 
+    public long getEstado() {
+        return estado;
+    }
+
+    public void setEstado(long estado) {
+        this.estado = estado;
+    }
+
     public Cliente getCliente() {
         return cliente;
     }
@@ -78,3 +87,5 @@ public class Venta {
         this.usuario = usuario;
     }
 }
+
+

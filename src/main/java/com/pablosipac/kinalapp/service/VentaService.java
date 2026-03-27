@@ -78,6 +78,7 @@ public class VentaService implements IVentaService {
         return ventaRepository.findByUsuarioCodigoUsuario(codigoUsuario);
     }
 
+    //Se buscar por la llave foranea
     @Override
     @Transactional(readOnly = true)
     public List<Venta> buscarPorFecha(LocalDate fechaVenta) {

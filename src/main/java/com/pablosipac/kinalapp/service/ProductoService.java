@@ -21,6 +21,7 @@ public class ProductoService implements IProductoService {
         this.productoRepository = productoRepository;
     }
 
+    //Se listan todos los productos creados existentes y en estado 0
     @Override
     @Transactional(readOnly = true)
     public List<Producto> listarTodos() {
@@ -28,18 +29,20 @@ public class ProductoService implements IProductoService {
         return productoRepository.findAll();
     }
 
+    //Se guarda Producto
     @Override
     public Producto guardar(Producto producto) {
         validarProductoNuevo(producto);
         return productoRepository.save(producto);
     }
-
+    //Se busca por Id en este caso por CodigoProducto
     @Override
     @Transactional(readOnly = true)
     public Optional<Producto> buscarPorcodigoProducto(Long codigoProducto) {
         return productoRepository.findById((codigoProducto));
     }
 
+    //Metodo para actualizar CodigoProducto
     @Override
     public Producto actualizar(Long codigoProducto, Producto producto) {
 
@@ -52,6 +55,7 @@ public class ProductoService implements IProductoService {
         return productoRepository.save(producto);
     }
 
+    //Metodo par eliminar CodigoProducto
     @Override
     public void eliminar(Long codigoProducto) {
         if (!productoRepository.existsById(codigoProducto)) {
@@ -60,18 +64,20 @@ public class ProductoService implements IProductoService {
         productoRepository.deleteById(codigoProducto);
     }
 
-
+    //Se revisa si existe CodigoProducto
     @Override
     public boolean existePorcodigoProducto(Long codigoProducto) {
         return productoRepository.existsById((codigoProducto));
     }
 
+    //Se listan los estados de producto
     @Override
     @Transactional(readOnly = true)
     public List<Producto> listarPorEstado(Long estado) {
         return productoRepository.findByEstado(estado);
     }
 
+    //Validacion para post
     private void validarProductoNuevo(Producto producto) {
         if (producto.getNombreProducto() == null || producto.getNombreProducto().trim().isEmpty()) {
             throw new IllegalArgumentException("El nombre del producto es obligatorio");
@@ -87,6 +93,7 @@ public class ProductoService implements IProductoService {
         }
     }
 
+    //Validacion para put
     private void validarProducto(Producto producto) {
         if (producto.getCodigoProducto() == null) {
             throw new IllegalArgumentException("El codigoProducto es obligatorio");

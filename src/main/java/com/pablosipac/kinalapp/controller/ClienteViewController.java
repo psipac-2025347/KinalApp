@@ -4,11 +4,10 @@ import com.pablosipac.kinalapp.service.IClienteService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.awt.*;
 
 @Controller
-@RequestMapping("/vistas/clientes")
+@RequestMapping("/vista/clientes")
 public class ClienteViewController {
 
     private final IClienteService clienteService;
@@ -34,6 +33,7 @@ public class ClienteViewController {
         model.addAttribute("titulo", "Nuevo Cliente");
         return "clientes/formulario";
     }
+
     //Recibe y Guarda el cliente
     @PostMapping("/guarda")
     public  String guardar(@ModelAttribute Cliente cliente, Model model){

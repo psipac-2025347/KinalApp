@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.awt.*;
 
 @Controller
-@RequestMapping("/clientes")
+@RequestMapping("/vistas/clientes")
 public class ClienteViewController {
 
     private final IClienteService clienteService;

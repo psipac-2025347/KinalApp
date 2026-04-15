@@ -19,7 +19,7 @@ public class ProductoViewController {
     public String listar(Model model) {
         // Model es una variable donde pones datos para que la plantilla HTML los use
         model.addAttribute("productos", productoService.listarTodos());
-        model.addAttribute("titulo", "Lista de Clientes");
+        model.addAttribute("titulo", "Lista de Productos");
         return "productos/lista"; // ← busca el archivo lista.html
     }
 
@@ -38,7 +38,7 @@ public class ProductoViewController {
             return "redirect:/vista/productos";
         } catch (IllegalArgumentException e) {
             model.addAttribute("error", e.getMessage());
-            model.addAttribute("cliente", producto);
+            model.addAttribute("producto", producto);
             return "productos/formulario";
 
         }

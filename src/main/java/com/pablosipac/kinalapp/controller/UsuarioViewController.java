@@ -5,10 +5,7 @@ import com.pablosipac.kinalapp.entity.Usuario;
 import com.pablosipac.kinalapp.service.IUsuarioService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/vista/usuarios")
@@ -35,7 +32,7 @@ public class UsuarioViewController {
         return "usuarios/formulario";
     }
 
-    @GetMapping("/guardar")
+    @PostMapping("/guardar")
     public String guardar (@ModelAttribute Usuario usuario, Model model) {
     try {
         usuarioService.guardar(usuario);

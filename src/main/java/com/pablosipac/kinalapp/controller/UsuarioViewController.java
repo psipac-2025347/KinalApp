@@ -24,7 +24,7 @@ public class UsuarioViewController {
     public String listar (Model model) {
         model.addAttribute("usuarios", usuarioService.listarTodos());
         model.addAttribute("titulo", "Lista de Usuarios");
-        return  "usuarios/vista";
+        return  "usuarios/lista";
     }
 
     //Recibe y guarda el formulario del cliente
@@ -53,10 +53,10 @@ public class UsuarioViewController {
                 .map(usuario -> {
                     model.addAttribute("usuario", usuario);
                     model.addAttribute("titulo", "Editar Usuario");
-                    return "usuarios/formulario";
+                    return "redirect:/vista/usuarios";
 
                 })
-                .orElse("redirect:/vista/usuarios");
+                .orElse("usuarios/formulario");
     }
 
     @GetMapping("/eliminar/{codigoUsuario}")

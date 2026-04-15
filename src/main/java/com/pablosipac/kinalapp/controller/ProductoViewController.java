@@ -19,7 +19,7 @@ public class ProductoViewController {
     public String listar(Model model) {
         // Model es una variable donde pones datos para que la plantilla HTML los use
         model.addAttribute("productos", productoService.listarTodos());
-        model.addAttribute("titulo", "Lista de Clientes");
+        model.addAttribute("titulo", "Lista de Productos");
         return "productos/lista"; // ← busca el archivo lista.html
     }
 
@@ -38,28 +38,40 @@ public class ProductoViewController {
             return "redirect:/vista/productos";
         } catch (IllegalArgumentException e) {
             model.addAttribute("error", e.getMessage());
-            model.addAttribute("cliente", producto);
+            model.addAttribute("producto", producto);
             return "productos/formulario";
 
         }
     }
-        @GetMapping("/editar/{codigoProducto}")
-        public String mostrarFormularioEditarPC(@PathVariable Long codigoProducto, Model model){
-            return productoService.buscarPorcodigoProducto(codigoProducto)
-                    .map(producto -> {
-                        model.addAttribute("producto", codigoProducto);
-                        model.addAttribute("Titulo", "Editar Producto" );
-                        return "productos/formulario"; // es el mismo formulario
-                    })
-                    .orElse("redirect:/vista/productos");
+    @PostMapping("/actualizar/{codigoProducto}")
+    public String actualizar(@PathVariable Long codigoProducto, @ModelAttribute Producto producto, Model model) {
+        try {
+            productoService.actualizar(codigoProducto, producto);
+            return "redirect:/vista/productos";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("error", e.getMessage());
+            model.addAttribute("producto", producto);
+            return "productos/formulario";
         }
+    }
+
+    @GetMapping("/editar/{codigoProducto}")
+    public String mostrarFormularioEditar(@PathVariable Long codigoProducto, Model model) {
+        return productoService.buscarPorcodigoProducto(codigoProducto)
+                .map(producto -> {
+                    model.addAttribute("producto", producto);
+                    model.addAttribute("titulo", "Editar Producto");
+                    return "productos/formulario";
+                })
+                .orElse("redirect:/vista/productos");
+    }
 
         @GetMapping("/eliminar/{codigoProducto}")
         public String eliminar (@PathVariable Long codigoProducto){
         if(productoService.existePorcodigoProducto(codigoProducto)){
             productoService.eliminar(codigoProducto);
         }
-        return "redirect:/vista/producto";
+        return "redirect:/vista/productos";
         }
 
 }

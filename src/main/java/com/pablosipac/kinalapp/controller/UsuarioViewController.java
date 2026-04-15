@@ -5,10 +5,7 @@ import com.pablosipac.kinalapp.entity.Usuario;
 import com.pablosipac.kinalapp.service.IUsuarioService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/vista/usuarios")
@@ -35,7 +32,7 @@ public class UsuarioViewController {
         return "usuarios/formulario";
     }
 
-    @GetMapping("/guardar")
+    @PostMapping("/guardar")
     public String guardar (@ModelAttribute Usuario usuario, Model model) {
     try {
         usuarioService.guardar(usuario);
@@ -47,16 +44,28 @@ public class UsuarioViewController {
     return "usuarios/formulario";
     }
 
+    @PostMapping("/actualizar/{codigoUsuario}")
+    public String actualizar(@PathVariable Long codigoUsuario, @ModelAttribute Usuario usuario, Model model) {
+        try {
+            usuarioService.actualizar(codigoUsuario, usuario);
+            return "redirect:/vista/usuarios";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("error", e.getMessage());
+            model.addAttribute("usuario", usuario);
+            return "usuarios/formulario";
+        }
+    }
+
+
     @GetMapping("/editar/{codigoUsuario}")
-    public String mostrarFormularioEditar(@PathVariable Long codigoUsuario, Model model){
-        return  usuarioService.buscarPorcodigoUsuario(codigoUsuario)
+    public String mostrarFormularioEditar(@PathVariable Long codigoUsuario, Model model) {
+        return usuarioService.buscarPorcodigoUsuario(codigoUsuario)
                 .map(usuario -> {
                     model.addAttribute("usuario", usuario);
                     model.addAttribute("titulo", "Editar Usuario");
-                    return "redirect:/vista/usuarios";
-
+                    return "usuarios/formulario";
                 })
-                .orElse("usuarios/formulario");
+                .orElse("redirect:/vista/usuarios");
     }
 
     @GetMapping("/eliminar/{codigoUsuario}")

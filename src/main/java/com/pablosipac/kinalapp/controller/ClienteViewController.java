@@ -60,6 +60,18 @@ public class ClienteViewController {
                 .orElse("redirect:/vista/clientes");
     }
 
+    @PostMapping("/actualizar/{dpi}")
+    public String actualizar(@PathVariable String dpi, @ModelAttribute Cliente cliente, Model model) {
+        try {
+            clienteService.actualizar(dpi, cliente);
+            return "redirect:/vista/clientes";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("error", e.getMessage());
+            model.addAttribute("cliente", cliente);
+            return "clientes/formulario";
+        }
+    }
+
     //Elimina y redirige a la lista
     @GetMapping("/eliminar/{dpi}")
     public String eliminar (@PathVariable String dpi){

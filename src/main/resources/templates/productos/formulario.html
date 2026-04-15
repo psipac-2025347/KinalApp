@@ -6,12 +6,20 @@
 </head>
 <body>
 
-<h1 th:text="${titulo}"></h1>
+<nav>
+    <a class="brand" th:href="@{/vista/menu}">KinalApp</a>
+    <a th:href="@{/vista/clientes}">Clientes</a>
+    <a th:href="@{/vista/productos}">Productos</a>
+    <a th:href="@{/vista/ventas}">Ventas</a>
+    <a th:href="@{/vista/detalles}">Detalles</a>
+    <a th:href="@{/vista/usuarios}">Usuarios</a>
+</nav>
 
+<h1 th:text="${titulo}"></h1>
 <p th:if="${error}" th:text="${error}" style="color:red;"></p>
 
-<!-- Formulario NUEVO -->
-<form th:if="${producto != null and producto.codigoProducto != null}"
+<!-- Formulario NUEVO - codigoProducto es null -->
+<form th:if="${producto == null or producto.codigoProducto == null}"
       th:action="@{/vista/productos/guardar}"
       th:object="${producto}" method="post">
 
@@ -34,9 +42,8 @@
     <a th:href="@{/vista/productos}">Cancelar</a>
 </form>
 
-
-<!-- Formulario EDITAR -->
-<form th:if="${producto == null or producto.codigoProducto == null}"
+<!-- Formulario EDITAR - codigoProducto tiene valor -->
+<form th:if="${producto != null and producto.codigoProducto != null}"
       th:action="@{/vista/productos/actualizar/{id}(id=${producto.codigoProducto})}"
       th:object="${producto}" method="post">
 
@@ -62,14 +69,5 @@
     <a th:href="@{/vista/productos}">Cancelar</a>
 </form>
 
-
-
 </body>
-<nav>
-    <a class="brand" th:href="@{/vista/menu}">KinalApp</a>
-    <a th:href="@{/vista/clientes}">Clientes</a>
-    <a th:href="@{/vista/ventas}">Ventas</a>
-    <a th:href="@{/vista/detalles}">Detalles</a>
-    <a th:href="@{/vista/usuarios}">Usuarios</a>
-</nav>
 </html>

@@ -43,7 +43,7 @@ public class ProductoViewController {
 
         }
     }
-    @PostMapping("/actualizar/{id}")
+    @PostMapping("/actualizar/{codigoProducto}")
     public String actualizar(@PathVariable Long codigoProducto, @ModelAttribute Producto producto, Model model) {
         try {
             productoService.actualizar(codigoProducto, producto);

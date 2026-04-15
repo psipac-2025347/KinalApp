@@ -18,3 +18,6 @@ Antes del proyecto es importante tener:
 Es importante saber que debes hacer para instalar y ejecutar el programa:
 * Clonar el repositorio 
 * Ejecutar la aplicacion desde un editor de textos (Preferiblemente Intellij)
+## Uso de la aplicacion
+Tiene que entrar a la direccion de localhost:8001 con la direccion de /vista/login
+entrando tiene que registrarse y de ahi puede entrar.En las entidades puedes Agregar,Editar y Eliminar. excepto en las  entidades de ventas y detalles ventas.

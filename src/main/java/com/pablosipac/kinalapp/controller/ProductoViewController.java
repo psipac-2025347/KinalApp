@@ -17,11 +17,10 @@ public class ProductoViewController {
 
     @GetMapping
     public String listar(Model model) {
-        // Model es como una "mochila" donde pones datos
-        // para que la plantilla HTML los use
+        // Model es una variable donde pones datos para que la plantilla HTML los use
         model.addAttribute("productos", productoService.listarTodos());
         model.addAttribute("titulo", "Lista de Clientes");
-        return "productos/lista"; // ← busca el archivo templates/clientes/lista.html
+        return "productos/lista"; // ← busca el archivo lista.html
     }
 
     @GetMapping("/nuevo")
@@ -40,7 +39,7 @@ public class ProductoViewController {
         } catch (IllegalArgumentException e) {
             model.addAttribute("error", e.getMessage());
             model.addAttribute("cliente", producto);
-            return "clientes/formulario";
+            return "productos/formulario";
 
         }
     }

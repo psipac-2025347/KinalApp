@@ -43,16 +43,17 @@ public class ProductoViewController {
 
         }
     }
-        @GetMapping("/editar/{codigoProducto}")
-        public String mostrarFormularioEditarPC(@PathVariable Long codigoProducto, Model model){
-            return productoService.buscarPorcodigoProducto(codigoProducto)
-                    .map(producto -> {
-                        model.addAttribute("producto", codigoProducto);
-                        model.addAttribute("Titulo", "Editar Producto" );
-                        return "productos/formulario"; // es el mismo formulario
-                    })
-                    .orElse("redirect:/vista/productos");
+    @PostMapping("/actualizar/{id}")
+    public String actualizar(@PathVariable Long id, @ModelAttribute Producto producto, Model model) {
+        try {
+            productoService.actualizar(id, producto);
+            return "redirect:/vista/productos";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("error", e.getMessage());
+            model.addAttribute("producto", producto);
+            return "productos/formulario";
         }
+    }
 
         @GetMapping("/eliminar/{codigoProducto}")
         public String eliminar (@PathVariable Long codigoProducto){

@@ -49,18 +49,15 @@ public class ClienteViewController {
 
     }
     //Muestra el formulario con datos del cliente para editar
-    @PostMapping("/actualizar/{dpi}")
-    public String actualizar(@PathVariable String dpi,
-                             @ModelAttribute Cliente cliente,
-                             Model model) {
-        try {
-            clienteService.actualizar(dpi, cliente);
-            return "redirect:/vista/clientes";
-        } catch (IllegalArgumentException e) {
-            model.addAttribute("error", e.getMessage());
-            model.addAttribute("cliente", cliente);
-            return "clientes/formulario";
-        }
+    @GetMapping("/editar/{dpi}")
+    public String mostrarFormularioEditar(@PathVariable String dpi, Model model){
+        return clienteService.buscarPorDPI(dpi)
+                .map(cliente -> {
+                model.addAttribute("cliente", cliente);
+                model.addAttribute("Titulo", "Editar Cliente" );
+                return "clientes/formulario"; // es el mismo formulario
+                })
+                .orElse("redirect:/vista/clientes");
     }
 
     //Elimina y redirige a la lista

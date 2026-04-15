@@ -44,16 +44,16 @@ public class UsuarioViewController {
     return "usuarios/formulario";
     }
 
-    @GetMapping("/editar/{codigoUsuario}")
-    public String mostrarFormularioEditar(@PathVariable Long codigoUsuario, Model model){
-        return  usuarioService.buscarPorcodigoUsuario(codigoUsuario)
-                .map(usuario -> {
-                    model.addAttribute("usuario", usuario);
-                    model.addAttribute("titulo", "Editar Usuario");
-                    return "redirect:/vista/usuarios";
-
-                })
-                .orElse("usuarios/formulario");
+    @PostMapping("/actualizar/{id}")
+    public String actualizar(@PathVariable Long id, @ModelAttribute Usuario usuario, Model model) {
+        try {
+            usuarioService.actualizar(id, usuario);
+            return "redirect:/vista/usuarios";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("error", e.getMessage());
+            model.addAttribute("usuario", usuario);
+            return "usuarios/formulario";
+        }
     }
 
     @GetMapping("/eliminar/{codigoUsuario}")

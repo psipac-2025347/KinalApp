@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Menú - KinalApp</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <style>
+        .menu-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #0f1117;
+            padding: 40px 24px;
+        }
+
+        .menu-titulo {
+            font-size: 28px;
+            font-weight: 700;
+            color: #f1f5f9;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .menu-subtitulo {
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 48px;
+        }
+
+        .menu-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            justify-content: center;
+            max-width: 900px;
+        }
+
+        .menu-card {
+            width: 200px;
+            height: 180px;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            border: 2px solid transparent;
+            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .menu-card .icono {
+            font-size: 42px;
+            margin-bottom: 14px;
+        }
+
+        .menu-card .nombre {
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        .menu-card .descripcion {
+            font-size: 12px;
+            margin-top: 4px;
+            opacity: 0.75;
+        }
+
+        /* Rojo Ruby - Clientes */
+        .card-clientes {
+            background-color: #1f0a0a;
+            border-color: #9b1c1c;
+            color: #fca5a5;
+        }
+        .card-clientes:hover {
+            border-color: #dc2626;
+            box-shadow: 0 16px 40px rgba(220, 38, 38, 0.25);
+        }
+
+        /* Amarillo Dorado - Productos */
+        .card-productos {
+            background-color: #1f1700;
+            border-color: #92400e;
+            color: #fcd34d;
+        }
+        .card-productos:hover {
+            border-color: #d97706;
+            box-shadow: 0 16px 40px rgba(217, 119, 6, 0.25);
+        }
+
+        /* Verde - Ventas */
+        .card-ventas {
+            background-color: #052010;
+            border-color: #065f46;
+            color: #6ee7b7;
+        }
+        .card-ventas:hover {
+            border-color: #10b981;
+            box-shadow: 0 16px 40px rgba(16, 185, 129, 0.25);
+        }
+
+        /* Azul claro - Detalles */
+        .card-detalles {
+            background-color: #071a2f;
+            border-color: #1e40af;
+            color: #93c5fd;
+        }
+        .card-detalles:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 16px 40px rgba(59, 130, 246, 0.25);
+        }
+
+        /* Blanco - Usuarios */
+        .card-usuarios {
+            background-color: #1a1d27;
+            border-color: #475569;
+            color: #f1f5f9;
+        }
+        .card-usuarios:hover {
+            border-color: #cbd5e1;
+            box-shadow: 0 16px 40px rgba(203, 213, 225, 0.15);
+        }
+
+        .menu-footer {
+            margin-top: 48px;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        @media (max-width: 600px) {
+            .menu-card {
+                width: 160px;
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="menu-wrapper">
+
+    <h1 class="menu-titulo">KinalApp</h1>
+    <p class="menu-subtitulo">Selecciona un módulo para comenzar</p>
+
+    <div class="menu-grid">
+
+        <a th:href="@{/vista/clientes}" class="menu-card card-clientes">
+            <div class="icono">👥</div>
+            <div class="nombre">Clientes</div>
+            <div class="descripcion">Gestionar clientes</div>
+        </a>
+
+        <a th:href="@{/vista/productos}" class="menu-card card-productos">
+            <div class="icono">📦</div>
+            <div class="nombre">Productos</div>
+            <div class="descripcion">Inventario y precios</div>
+        </a>
+
+        <a th:href="@{/vista/ventas}" class="menu-card card-ventas">
+            <div class="icono">🧾</div>
+            <div class="nombre">Ventas</div>
+            <div class="descripcion">Registro de ventas</div>
+        </a>
+
+        <a th:href="@{/vista/detalles}" class="menu-card card-detalles">
+            <div class="icono">📋</div>
+            <div class="nombre">Detalles</div>
+            <div class="descripcion">Detalle de ventas</div>
+        </a>
+
+        <a th:href="@{/vista/usuarios}" class="menu-card card-usuarios">
+            <div class="icono">🔑</div>
+            <div class="nombre">Usuarios</div>
+            <div class="descripcion">Gestionar accesos</div>
+        </a>
+
+    </div>
+
+    <p class="menu-footer">KinalApp &copy; 2026</p>
+
+</div>
+
+</body>
+</html>

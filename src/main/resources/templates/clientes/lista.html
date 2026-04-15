@@ -1,35 +1,40 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Clientes</title>
+    <title>Clientes - KinalApp</title>
 </head>
 <body>
+
 <h1>Lista de Clientes</h1>
+<a th:href="@{/vista/clientes/nuevo}">+ Nuevo Cliente</a>
+<br/><br/>
 
-<a th:href="@{/vista/clientes/nuevo}">Nuevo Cliente</a>
-
-<table>
+<table border="1">
     <thead>
     <tr>
         <th>DPI</th>
         <th>Nombre</th>
         <th>Apellido</th>
         <th>Dirección</th>
+        <th>Estado</th>
         <th>Acciones</th>
     </tr>
     </thead>
     <tbody>
-    <!-- th:each es el foreach de Thymeleaf -->
     <tr th:each="cliente : ${clientes}">
         <td th:text="${cliente.DPICliente}"></td>
         <td th:text="${cliente.nombreCliente}"></td>
         <td th:text="${cliente.apellidoCliente}"></td>
         <td th:text="${cliente.direccion}"></td>
+        <td th:text="${cliente.estado == 1 ? 'Activo' : 'Inactivo'}"></td>
         <td>
-            <a th:href="@{/vista/clientes/eliminar/{dpi}(dpi=${cliente.DPICliente})}">Eliminar</a>
+            <a th:href="@{/vista/clientes/editar/{dpi}(dpi=${cliente.DPICliente})}">Editar</a>
+            |
+            <a th:href="@{/vista/clientes/eliminar/{dpi}(dpi=${cliente.DPICliente})}" onclick="return confirm('¿Estás seguro de eliminar este cliente?')">Eliminar</a>
         </td>
     </tr>
     </tbody>
 </table>
+
 </body>
 </html>

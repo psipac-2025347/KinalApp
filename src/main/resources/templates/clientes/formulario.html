@@ -1,25 +1,65 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Nuevo Cliente</title>
+  <title>Formulario Cliente - KinalApp</title>
 </head>
 <body>
-<h1>Nuevo Cliente</h1>
 
-<form th:action="@{/vista/clientes/guardar}" th:object="${cliente}" method="post">
+<h1 th:text="${cliente.DPICliente != null} ? 'Editar Cliente' : 'Nuevo Cliente'"></h1>
+
+<!-- Si tiene DPI es editar, si no es nuevo -->
+<form th:if="${cliente.DPICliente != null}"
+      th:action="@{/vista/clientes/actualizar/{dpi}(dpi=${cliente.DPICliente})}"
+      th:object="${cliente}" method="post">
+
   <label>DPI:</label>
-  <input type="text" th:field="*{DPICliente}"/><br/>
+  <input type="text" th:field="*{DPICliente}" readonly/><br/><br/>
 
   <label>Nombre:</label>
-  <input type="text" th:field="*{nombreCliente}"/><br/>
+  <input type="text" th:field="*{nombreCliente}"/><br/><br/>
 
   <label>Apellido:</label>
-  <input type="text" th:field="*{apellidoCliente}"/><br/>
+  <input type="text" th:field="*{apellidoCliente}"/><br/><br/>
 
   <label>Dirección:</label>
-  <input type="text" th:field="*{direccion}"/><br/>
+  <input type="text" th:field="*{direccion}"/><br/><br/>
+
+  <label>Estado:</label>
+  <select th:field="*{estado}">
+    <option value="1">Activo</option>
+    <option value="0">Inactivo</option>
+  </select><br/><br/>
+
+  <button type="submit">Actualizar</button>
+  <a th:href="@{/vista/clientes}">Cancelar</a>
+</form>
+
+<!-- Formulario para NUEVO cliente -->
+<form th:if="${cliente.DPICliente == null}"
+      th:action="@{/vista/clientes/guardar}"
+      th:object="${cliente}" method="post">
+
+  <label>DPI:</label>
+  <input type="text" th:field="*{DPICliente}"/><br/><br/>
+
+  <label>Nombre:</label>
+  <input type="text" th:field="*{nombreCliente}"/><br/><br/>
+
+  <label>Apellido:</label>
+  <input type="text" th:field="*{apellidoCliente}"/><br/><br/>
+
+  <label>Dirección:</label>
+  <input type="text" th:field="*{direccion}"/><br/><br/>
+
+  <label>Estado:</label>
+  <select th:field="*{estado}">
+    <option value="1">Activo</option>
+    <option value="0">Inactivo</option>
+  </select><br/><br/>
 
   <button type="submit">Guardar</button>
+  <a th:href="@{/vista/clientes}">Cancelar</a>
 </form>
+
 </body>
 </html>

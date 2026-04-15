@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Detalles de Venta - KinalApp</title>
+</head>
+<body>
+
+<h1 th:text="${titulo}"></h1>
+<a th:href="@{/vista/detalles/nuevo}">+ Nuevo Detalle</a>
+<br/><br/>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>Código</th>
+        <th>Venta</th>
+        <th>Producto</th>
+        <th>Cantidad</th>
+        <th>Precio Unitario</th>
+        <th>SubTotal</th>
+        <th>Estado</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="detalle : ${detalles}">
+        <td th:text="${detalle.codigoDetalleVenta}"></td>
+        <td th:text="${detalle.venta.codigoVenta}"></td>
+        <td th:text="${detalle.producto.nombreProducto}"></td>
+        <td th:text="${detalle.cantidad}"></td>
+        <td th:text="${detalle.precioUnitario}"></td>
+        <td th:text="${detalle.subTotal}"></td>
+        <td th:text="${detalle.estado == 1 ? 'Activo' : 'Inactivo'}"></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

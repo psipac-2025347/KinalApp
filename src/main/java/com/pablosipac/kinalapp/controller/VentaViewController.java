@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/vista/ventas")
-public class VentasViewController {
+public class VentaViewController {
     private IVentaService ventaService;
     private IClienteService clienteService;
     private IUsuarioService usuarioService;
 
-    public VentasViewController(IVentaService ventaService, IClienteService clienteService, IUsuarioService usuarioService) {
+    public VentaViewController(IVentaService ventaService, IClienteService clienteService, IUsuarioService usuarioService) {
         this.ventaService = ventaService;
         this.clienteService = clienteService;
         this.usuarioService = usuarioService;

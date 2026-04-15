@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Formulario Usuario - KinalApp</title>
+</head>
+<body>
+
+<h1 th:text="${titulo}"></h1>
+
+<p th:if="${error}" th:text="${error}" style="color:red;"></p>
+
+<!-- Formulario EDITAR -->
+<form th:if="${usuario.codigoUsuario != null}"
+      th:action="@{/vista/usuarios/actualizar/{id}(id=${usuario.codigoUsuario})}"
+      th:object="${usuario}" method="post">
+
+    <label>Código:</label>
+    <input type="number" th:field="*{codigoUsuario}" readonly/><br/><br/>
+
+    <label>Username:</label>
+    <input type="text" th:field="*{username}"/><br/><br/>
+
+    <label>Password:</label>
+    <input type="password" th:field="*{password}"/><br/><br/>
+
+    <label>Email:</label>
+    <input type="email" th:field="*{email}"/><br/><br/>
+
+    <label>Rol:</label>
+    <select th:field="*{rol}">
+        <option value="ADMIN">Administrador</option>
+        <option value="USER">Usuario</option>
+    </select><br/><br/>
+
+    <label>Estado:</label>
+    <select th:field="*{estado}">
+        <option value="1">Activo</option>
+        <option value="0">Inactivo</option>
+    </select><br/><br/>
+
+    <button type="submit">Actualizar</button>
+    <a th:href="@{/vista/usuarios}">Cancelar</a>
+</form>
+
+<!-- Formulario NUEVO -->
+<form th:if="${usuario.codigoUsuario == null}"
+      th:action="@{/vista/usuarios/guardar}"
+      th:object="${usuario}" method="post">
+
+    <label>Username:</label>
+    <input type="text" th:field="*{username}"/><br/><br/>
+
+    <label>Password:</label>
+    <input type="password" th:field="*{password}"/><br/><br/>
+
+    <label>Email:</label>
+    <input type="email" th:field="*{email}"/><br/><br/>
+
+    <label>Rol:</label>
+    <select th:field="*{rol}">
+        <option value="ADMIN">Administrador</option>
+        <option value="USER">Usuario</option>
+    </select><br/><br/>
+
+    <label>Estado:</label>
+    <select th:field="*{estado}">
+        <option value="1">Activo</option>
+        <option value="0">Inactivo</option>
+    </select><br/><br/>
+
+    <button type="submit">Guardar</button>
+    <a th:href="@{/vista/usuarios}">Cancelar</a>
+</form>
+
+</body>
+</html>

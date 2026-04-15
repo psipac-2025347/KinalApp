@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel="stylesheet" href="/css/style.css">
+  <title>Productos - KinalApp</title>
+</head>
+<body>
+
+<h1 th:text="${titulo}"></h1>
+<a th:href="@{/vista/productos/nuevo}">+ Nuevo Producto</a>
+<br/><br/>
+
+<table border="1">
+  <thead>
+  <tr>
+    <th>Código</th>
+    <th>Nombre</th>
+    <th>Precio</th>
+    <th>Stock</th>
+    <th>Estado</th>
+    <th>Acciones</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="producto : ${productos}">
+    <td th:text="${producto.codigoProducto}"></td>
+    <td th:text="${producto.nombreProducto}"></td>
+    <td th:text="${producto.precio}"></td>
+    <td th:text="${producto.stock}"></td>
+    <td th:text="${producto.estado == 1 ? 'Activo' : 'Inactivo'}"></td>
+    <td>
+      <a th:href="@{/vista/productos/editar/{id}(id=${producto.codigoProducto})}">Editar</a>
+      |
+      <a th:href="@{/vista/productos/eliminar/{id}(id=${producto.codigoProducto})}" onclick="return confirm('¿Seguro que deseas eliminar este producto?')">Eliminar</a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+</body>
+</html>

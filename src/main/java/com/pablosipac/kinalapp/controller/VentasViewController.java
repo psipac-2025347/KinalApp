@@ -1,7 +1,6 @@
 package com.pablosipac.kinalapp.controller;
 
 import com.pablosipac.kinalapp.entity.Venta;
-import com.pablosipac.kinalapp.service.ClienteService;
 import com.pablosipac.kinalapp.service.IClienteService;
 import com.pablosipac.kinalapp.service.IUsuarioService;
 import com.pablosipac.kinalapp.service.IVentaService;
@@ -10,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -41,7 +41,7 @@ public class VentasViewController {
         return "ventas/formulario";
     }
 
-    @GetMapping("/guardar")
+    @PostMapping("/guardar")
     public String guardar (@ModelAttribute Venta venta, Model model){
         try {
             ventaService.guardar(venta);

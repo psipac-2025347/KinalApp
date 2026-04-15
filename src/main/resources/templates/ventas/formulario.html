@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Nueva Venta - KinalApp</title>
+</head>
+<body>
+
+<h1 th:text="${titulo}"></h1>
+
+<!-- Mensaje de error si existe -->
+<p th:if="${error}" th:text="${error}" style="color:red;"></p>
+
+<form th:action="@{/vista/ventas/guardar}" th:object="${venta}" method="post">
+
+    <label>Fecha:</label>
+    <input type="date" th:field="*{fechaVenta}"/><br/><br/>
+
+    <label>Total:</label>
+    <input type="number" step="0.01" th:field="*{total}"/><br/><br/>
+
+    <label>Estado:</label>
+    <select th:field="*{estado}">
+        <option value="1">Activo</option>
+        <option value="0">Inactivo</option>
+    </select><br/><br/>
+
+    <!-- Select de Clientes -->
+    <label>Cliente:</label>
+    <select name="cliente.DPICliente">
+        <option value="">-- Selecciona un cliente --</option>
+        <option th:each="cliente : ${clientes}"
+                th:value="${cliente.DPICliente}"
+                th:text="${cliente.nombreCliente + ' ' + cliente.apellidoCliente}">
+        </option>
+    </select><br/><br/>
+
+    <!-- Select de Usuarios -->
+    <label>Usuario:</label>
+    <select name="usuario.codigoUsuario">
+        <option value="">-- Selecciona un usuario --</option>
+        <option th:each="usuario : ${usuarios}"
+                th:value="${usuario.codigoUsuario}"
+                th:text="${usuario.username}">
+        </option>
+    </select><br/><br/>
+
+    <button type="submit">Guardar</button>
+    <a th:href="@{/vista/ventas}">Cancelar</a>
+
+</form>
+
+</body>
+</html>

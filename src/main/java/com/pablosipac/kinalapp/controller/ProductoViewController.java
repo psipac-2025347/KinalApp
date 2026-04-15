@@ -44,9 +44,9 @@ public class ProductoViewController {
         }
     }
     @PostMapping("/actualizar/{id}")
-    public String actualizar(@PathVariable Long id, @ModelAttribute Producto producto, Model model) {
+    public String actualizar(@PathVariable Long codigoProducto, @ModelAttribute Producto producto, Model model) {
         try {
-            productoService.actualizar(id, producto);
+            productoService.actualizar(codigoProducto, producto);
             return "redirect:/vista/productos";
         } catch (IllegalArgumentException e) {
             model.addAttribute("error", e.getMessage());
@@ -55,12 +55,23 @@ public class ProductoViewController {
         }
     }
 
+    @GetMapping("/editar/{codigoProducto}")
+    public String mostrarFormularioEditar(@PathVariable Long codigoProducto, Model model) {
+        return productoService.buscarPorcodigoProducto(codigoProducto)
+                .map(producto -> {
+                    model.addAttribute("producto", producto);
+                    model.addAttribute("titulo", "Editar Producto");
+                    return "productos/formulario";
+                })
+                .orElse("redirect:/vista/productos");
+    }
+
         @GetMapping("/eliminar/{codigoProducto}")
         public String eliminar (@PathVariable Long codigoProducto){
         if(productoService.existePorcodigoProducto(codigoProducto)){
             productoService.eliminar(codigoProducto);
         }
-        return "redirect:/vista/producto";
+        return "redirect:/vista/productos";
         }
 
 }

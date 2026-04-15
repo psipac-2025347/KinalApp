@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Formulario Producto - KinalApp</title>
+</head>
+<body>
+
+<h1 th:text="${titulo}"></h1>
+
+<p th:if="${error}" th:text="${error}" style="color:red;"></p>
+
+<!-- Formulario EDITAR -->
+<form th:if="${producto.codigoProducto != null}"
+      th:action="@{/vista/productos/actualizar/{id}(id=${producto.codigoProducto})}"
+      th:object="${producto}" method="post">
+
+  <label>Código:</label>
+  <input type="number" th:field="*{codigoProducto}" readonly/><br/><br/>
+
+  <label>Nombre:</label>
+  <input type="text" th:field="*{nombreProducto}"/><br/><br/>
+
+  <label>Precio:</label>
+  <input type="number" step="0.01" th:field="*{precio}"/><br/><br/>
+
+  <label>Stock:</label>
+  <input type="number" th:field="*{stock}"/><br/><br/>
+
+  <label>Estado:</label>
+  <select th:field="*{estado}">
+    <option value="1">Activo</option>
+    <option value="0">Inactivo</option>
+  </select><br/><br/>
+
+  <button type="submit">Actualizar</button>
+  <a th:href="@{/vista/productos}">Cancelar</a>
+</form>
+
+<!-- Formulario NUEVO -->
+<form th:if="${producto.codigoProducto == null}"
+      th:action="@{/vista/productos/guardar}"
+      th:object="${producto}" method="post">
+
+  <label>Nombre:</label>
+  <input type="text" th:field="*{nombreProducto}"/><br/><br/>
+
+  <label>Precio:</label>
+  <input type="number" step="0.01" th:field="*{precio}"/><br/><br/>
+
+  <label>Stock:</label>
+  <input type="number" th:field="*{stock}"/><br/><br/>
+
+  <label>Estado:</label>
+  <select th:field="*{estado}">
+    <option value="1">Activo</option>
+    <option value="0">Inactivo</option>
+  </select><br/><br/>
+
+  <button type="submit">Guardar</button>
+  <a th:href="@{/vista/productos}">Cancelar</a>
+</form>
+
+</body>
+</html>

@@ -19,11 +19,10 @@ public class ClienteViewController {
 
     @GetMapping
     public String listar(Model model) {
-        // Model es como una "mochila" donde pones datos
-        // para que la plantilla HTML los use
+        // Model es como una variable en donde pones datos para que la plantilla HTML los use
         model.addAttribute("clientes", clienteService.listarTodos());
         model.addAttribute("titulo", "Lista de Clientes");
-        return "clientes/lista"; // ← busca el archivo templates/clientes/lista.html
+        return "clientes/lista"; //  busca el archivo templates/clientes/lista.html
     }
 
     //Recibe y Guarda el formulario del cliente
@@ -35,7 +34,7 @@ public class ClienteViewController {
     }
 
     //Recibe y Guarda el cliente
-    @PostMapping("/guarda")
+    @PostMapping("/guardar")
     public  String guardar(@ModelAttribute Cliente cliente, Model model){
         //@ModelAttribute toma los campos  del formulario HTML y los convierte al objeto cliente automaticamente
         try {

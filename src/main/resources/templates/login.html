@@ -120,10 +120,23 @@
             <a th:href="@{/vista/registro}">Regístrate aquí</a>
         </div>
 
+        <div class="error-msg" th:if="${param.error}">
+            Usuario o contraseña incorrectos
+        </div>
+        <div class="error-msg" th:if="${param.logout}">
+            Sesión cerrada correctamente
+        </div>
+
     </div>
 </div>
 
 </body>
 <nav>
+    <form th:action="@{/vista/logout}" method="post" style="margin:0;">
+        <button type="submit" style="background:none; border:none;
+            color:#e05c5c; cursor:pointer; font-size:14px; padding: 6px 14px;">
+            Cerrar sesión
+        </button>
+    </form>
 </nav>
 </html>

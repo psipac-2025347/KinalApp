@@ -187,6 +187,28 @@
     <p class="menu-footer">KinalApp &copy; 2026</p>
 
 </div>
+<nav>
+    <a class="brand" th:href="@{/vista/menu}">KinalApp</a>
+    <a th:href="@{/vista/clientes}">Clientes</a>
+    <a th:href="@{/vista/productos}">Productos</a>
+    <a th:href="@{/vista/ventas}">Ventas</a>
+    <a th:href="@{/vista/detalles}">Detalles</a>
+    <a th:href="@{/vista/usuarios}">Usuarios</a>
 
+    <form th:action="@{/vista/logout}" method="post" style="margin-left:auto; margin:0;">
+        <button type="submit" style="
+            background: none;
+            border: 1px solid #7c2d2d;
+            color: #e05c5c;
+            padding: 6px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.2s;
+            margin-left: auto;">
+            Cerrar sesión
+        </button>
+    </form>
+</nav>
 </body>
 </html>

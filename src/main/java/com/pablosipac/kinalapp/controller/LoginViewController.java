@@ -48,10 +48,9 @@ public class LoginViewController {
     @PostMapping("/registro")
     public String procesarRegistro(@RequestParam String username, @RequestParam String password, @RequestParam String email, @RequestParam String rol, Model model) {
         try {
-
             Usuario nuevo = new Usuario();
             nuevo.setUsername(username);
-            nuevo.setPassword(encoder.encode(password));
+            nuevo.setPassword(password);
             nuevo.setEmail(email);
             nuevo.setRol(rol);
             nuevo.setEstado(1L);

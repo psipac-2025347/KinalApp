@@ -4,25 +4,55 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
+    private final KinalUserDetailsService kinalUserDetailsService;
+
+    public SecurityConfig(KinalUserDetailsService kinalUserDetailsService) {
+        this.kinalUserDetailsService = kinalUserDetailsService;
+    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .userDetailsService(kinalUserDetailsService)
                 .authorizeHttpRequests(auth -> auth
+
                         .requestMatchers("/css/**", "/js/**",
                                 "/vista/login", "/vista/registro").permitAll()
+
+                        .requestMatchers("/vista/clientes/nuevo").hasRole("ADMIN")
+                        .requestMatchers("/vista/clientes/guardar").hasRole("ADMIN")
+                        .requestMatchers("/vista/clientes/editar/**").hasRole("ADMIN")
+                        .requestMatchers("/vista/clientes/actualizar/**").hasRole("ADMIN")
+                        .requestMatchers("/vista/clientes/eliminar/**").hasRole("ADMIN")
+
+                        .requestMatchers("/vista/productos/nuevo").hasRole("ADMIN")
+                        .requestMatchers("/vista/productos/guardar").hasRole("ADMIN")
+                        .requestMatchers("/vista/productos/editar/**").hasRole("ADMIN")
+                        .requestMatchers("/vista/productos/actualizar/**").hasRole("ADMIN")
+                        .requestMatchers("/vista/productos/eliminar/**").hasRole("ADMIN")
+
+                        .requestMatchers("/vista/ventas/nuevo").hasRole("ADMIN")
+                        .requestMatchers("/vista/ventas/guardar").hasRole("ADMIN")
+                        .requestMatchers("/vista/ventas/editar/**").hasRole("ADMIN")
+                        .requestMatchers("/vista/ventas/actualizar/**").hasRole("ADMIN")
+                        .requestMatchers("/vista/ventas/eliminar/**").hasRole("ADMIN")
+
+                        .requestMatchers("/vista/detalles/nuevo").hasRole("ADMIN")
+                        .requestMatchers("/vista/detalles/guardar").hasRole("ADMIN")
+                        .requestMatchers("/vista/detalles/editar/**").hasRole("ADMIN")
+                        .requestMatchers("/vista/detalles/actualizar/**").hasRole("ADMIN")
+                        .requestMatchers("/vista/detalles/eliminar/**").hasRole("ADMIN")
+
                         .requestMatchers("/vista/usuarios/**").hasRole("ADMIN")
+
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
@@ -42,24 +72,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails user = User.builder()
-                .username("user")
-                .password("12345")
-                .roles("USER")
-                .build();
-
-        UserDetails admin = User.builder()
-                .username("admin")
-                .password("admin")
-                .roles("ADMIN")
-                .build();
-
-        return new InMemoryUserDetailsManager(user, admin);
-    }
-
-    @Bean
     public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder();
     }
 }

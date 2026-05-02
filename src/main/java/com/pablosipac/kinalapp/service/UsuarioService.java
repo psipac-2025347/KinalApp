@@ -1,5 +1,7 @@
 package com.pablosipac.kinalapp.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import com.pablosipac.kinalapp.entity.Usuario;
 import com.pablosipac.kinalapp.repository.UsuarioRepository;
@@ -27,13 +29,15 @@ public class UsuarioService implements IUsuarioService {
         return usuarioRepository.findAll();
     }
 
-    //Metodo para guardar el usuario
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Override
-        public Usuario guardar(Usuario usuario) {
+    public Usuario guardar(Usuario usuario) {
         validarUsuarioNuevo(usuario);
+        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
         return usuarioRepository.save(usuario);
     }
-
     //metodo para buscar por codigoUsuario (id)
     @Override
     @Transactional(readOnly = true)
@@ -49,6 +53,7 @@ public class UsuarioService implements IUsuarioService {
         }
         usuario.setCodigoUsuario(codigoUsuario);
         validarUsuario(usuario);
+        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
         return usuarioRepository.save(usuario);
     }
     //Metodo para eliminar Por codigoUsuario
@@ -74,6 +79,8 @@ public class UsuarioService implements IUsuarioService {
 
         return usuarioRepository.findByEstado(estado);
     }
+
+
 
     //Validcion para post
     private void validarUsuarioNuevo(Usuario usuario) {

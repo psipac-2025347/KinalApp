@@ -2,7 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <link rel="stylesheet" href="/css/style.css">
-  <title>Productos - KinalApp</title>
+    <nav>
+        <a class="brand" th:href="@{/vista/menu}">KinalApp</a>
+        <a th:href="@{/vista/clientes}">Clientes</a>
+        <a th:href="@{/vista/ventas}">Ventas</a>
+        <a th:href="@{/vista/detalles}">Detalles</a>
+        <a th:href="@{/vista/usuarios}">Usuarios</a>
+    </nav>
+    <title>Productos - KinalApp</title>
 </head>
 <body>
 
@@ -38,11 +45,4 @@
 </table>
 
 </body>
-<nav>
-    <a class="brand" th:href="@{/vista/menu}">KinalApp</a>
-    <a th:href="@{/vista/clientes}">Clientes</a>
-    <a th:href="@{/vista/ventas}">Ventas</a>
-    <a th:href="@{/vista/detalles}">Detalles</a>
-    <a th:href="@{/vista/usuarios}">Usuarios</a>
-</nav>
 </html>

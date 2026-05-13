@@ -38,6 +38,9 @@
         <td th:text="${detalle.precioUnitario}"></td>
         <td th:text="${detalle.subTotal}"></td>
         <td th:text="${detalle.estado == 1 ? 'Activo' : 'Inactivo'}"></td>
+        <td><a href="javascript:void(0)" onclick="alert('No se puede editar un detalle de venta registrado.')">Editar</a>
+            <a href="javascript:void(0)" onclick="alert('No se puede eliminar un detalle de venta registrado.')">Eliminar</a>
+        </td>
     </tr>
     </tbody>
 </table>

@@ -46,13 +46,13 @@ public class LoginViewController {
     }
 
     @PostMapping("/registro")
-    public String procesarRegistro(@RequestParam String username, @RequestParam String password, @RequestParam String email, @RequestParam String rol, Model model) {
+    public String procesarRegistro(@RequestParam String username, @RequestParam String password, @RequestParam String email, Model model) {
         try {
             Usuario nuevo = new Usuario();
             nuevo.setUsername(username);
             nuevo.setPassword(password);
             nuevo.setEmail(email);
-            nuevo.setRol(rol);
+            nuevo.setRol("USER");
             nuevo.setEstado(1L);
             usuarioService.guardar(nuevo);
             return "redirect:/vista/login";

@@ -36,6 +36,10 @@
         <td th:text="${venta.cliente.nombreCliente + ' ' + venta.cliente.apellidoCliente}"></td>
         <td th:text="${venta.usuario.username}"></td>
         <td th:text="${venta.estado == 1 ? 'Activo' : 'Inactivo'}"></td>
+        <td>
+            <a onclick="alert('No se puede editar una venta registrada.')" href="javascript:void(0)">Editar</a>|
+            <a onclick="alert('No se puede eliminar una venta registrada.')" href="javascript:void(0)">Eliminar</a>
+        </td>
     </tr>
     </tbody>
 </table>

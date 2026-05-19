@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Usuarios - KinalApp</title>
+    <nav>
+        <a class="brand" th:href="@{/vista/menu}">KinalApp</a>
+        <a th:href="@{/vista/clientes}">Clientes</a>
+        <a th:href="@{/vista/productos}">Productos</a>
+        <a th:href="@{/vista/ventas}">Ventas</a>
+        <a th:href="@{/vista/detalles}">Detalles</a>
+    </nav>
+</head>
+<body>
+
+<h1 th:text="${titulo}"></h1>
+<a th:href="@{/vista/usuarios/nuevo}">+ Nuevo Usuario</a>
+<br/><br/>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>Código</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Rol</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="usuario : ${usuarios}">
+        <td th:text="${usuario.codigoUsuario}"></td>
+        <td th:text="${usuario.username}"></td>
+        <td th:text="${usuario.email}"></td>
+        <td th:text="${usuario.rol}"></td>
+        <td th:text="${usuario.estado == 1 ? 'Activo' : 'Inactivo'}"></td>
+        <td>
+            <a th:href="@{/vista/usuarios/editar/{id}(id=${usuario.codigoUsuario})}">Editar</a>
+            |
+            <a th:href="@{/vista/usuarios/eliminar/{id}(id=${usuario.codigoUsuario})}" onclick="return confirm('¿Seguro que deseas eliminar este usuario?')">Eliminar</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+
+</html>

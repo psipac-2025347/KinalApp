@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Nuevo Detalle - KinalApp</title>
+</head>
+<body>
+
+<h1 th:text="${titulo}"></h1>
+
+<!-- Mensaje de error si existe -->
+<p th:if="${error}" th:text="${error}" style="color:red;"></p>
+
+<form th:action="@{/vista/detalles/guardar}" th:object="${detalle}" method="post">
+
+    <!-- Select de Ventas -->
+    <label>Venta:</label>
+    <select name="venta.codigoVenta">
+        <option value="">-- Selecciona una venta --</option>
+        <option th:each="venta : ${ventas}"
+                th:value="${venta.codigoVenta}"
+                th:text="${'Venta #' + venta.codigoVenta + ' - ' + venta.fechaVenta}">
+        </option>
+    </select><br/><br/>
+
+    <!-- Select de Productos -->
+    <label>Producto:</label>
+    <select name="producto.codigoProducto">
+        <option value="">-- Selecciona un producto --</option>
+        <option th:each="producto : ${productos}"
+                th:value="${producto.codigoProducto}"
+                th:text="${producto.nombreProducto + ' - Q' + producto.precio}">
+        </option>
+    </select><br/><br/>
+
+    <label>Cantidad:</label>
+    <input type="number" th:field="*{cantidad}" min="1"/><br/><br/>
+
+    <label>Precio Unitario:</label>
+    <input type="number" step="0.01" th:field="*{precioUnitario}"/><br/><br/>
+
+    <label>SubTotal:</label>
+    <input type="number" step="0.01" th:field="*{subTotal}"/><br/><br/>
+
+    <label>Estado:</label>
+    <select th:field="*{estado}">
+        <option value="1">Activo</option>
+        <option value="0">Inactivo</option>
+    </select><br/><br/>
+
+    <button type="submit">Guardar</button>
+    <a th:href="@{/vista/detalles}">Cancelar</a>
+
+</form>
+
+</body>
+<nav>
+    <a class="brand" th:href="@{/vista/menu}">KinalApp</a>
+    <a th:href="@{/vista/clientes}">Clientes</a>
+    <a th:href="@{/vista/productos}">Productos</a>
+    <a th:href="@{/vista/ventas}">Ventas</a>
+    <a th:href="@{/vista/usuarios}">Usuarios</a>
+</nav>
+</html>

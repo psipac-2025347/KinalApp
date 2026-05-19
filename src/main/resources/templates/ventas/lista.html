@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Ventas - KinalApp</title>
+    <nav>
+        <a class="brand" th:href="@{/vista/menu}">KinalApp</a>
+        <a th:href="@{/vista/clientes}">Clientes</a>
+        <a th:href="@{/vista/productos}">Productos</a>
+        <a th:href="@{/vista/detalles}">Detalles</a>
+        <a th:href="@{/vista/usuarios}">Usuarios</a>
+    </nav>
+</head>
+<body>
+
+<h1 th:text="${titulo}"></h1>
+<a th:href="@{/vista/ventas/nuevo}">+ Nueva Venta</a>
+<br/><br/>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>Código</th>
+        <th>Fecha</th>
+        <th>Total</th>
+        <th>Cliente</th>
+        <th>Usuario</th>
+        <th>Estado</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="venta : ${ventas}">
+        <td th:text="${venta.codigoVenta}"></td>
+        <td th:text="${venta.fechaVenta}"></td>
+        <td th:text="${venta.total}"></td>
+        <td th:text="${venta.cliente.nombreCliente + ' ' + venta.cliente.apellidoCliente}"></td>
+        <td th:text="${venta.usuario.username}"></td>
+        <td th:text="${venta.estado == 1 ? 'Activo' : 'Inactivo'}"></td>
+        <td>
+            <a onclick="alert('No se puede editar una venta registrada.')" href="javascript:void(0)">Editar</a>|
+            <a onclick="alert('No se puede eliminar una venta registrada.')" href="javascript:void(0)">Eliminar</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
